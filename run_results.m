@@ -30,6 +30,7 @@ t               = G.Edges.Weight;
 minTT = zeros(1,1,3);
 avgAcc = zeros(1,1,3);
 pathAcc = zeros(1,1,3);
+pathAccMILP = zeros(1,1,3);
 
 %% optimizations
 
@@ -147,5 +148,5 @@ AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPath',D,true)
 % str_save_afi = 'output/afi_MILP.mat';
 % save(str_save_afi, "MILP")
 
-save('output/TT_AFI.mat','minTT','avgAcc','pathAcc');
+save('output/TT_AFI.mat','minTT','avgAcc','pathAcc','pathAccMILP');
 
