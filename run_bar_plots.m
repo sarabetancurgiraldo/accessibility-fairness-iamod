@@ -8,7 +8,8 @@ load('output/TT_AFI.mat');
 Tmax            = 20/60; 
 nCar            = 4e3;
 maxY            = 2000;
-file_typ        = 'pdf';
+% file_typ        = 'pdf';
+file_typ        = "png";
 alpha           = sum(abs(D),1)/2;
 Nmin            = 35;
 

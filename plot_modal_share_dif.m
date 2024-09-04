@@ -31,7 +31,6 @@ set(groot,'defaultlegendinterpreter','latex')
 set(gca,'ticklabelinterpreter','Latex','fontsize',20)
 bar(x_vals, T1.T-T2.T,'stacked')
 
-
 ylim([-1050 2000])
 
 xlim([0 nbins])
@@ -56,6 +55,9 @@ xticks(0:5:60);
 %     xticks(vector)
 %     xticklabels(round(60*edges(2:end),2)-step_bins/2)
 % end
+
+lgd = legend('Car','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$');
+lgd.FontSize = 12;
 
 if save_fig
     exportgraphics(gcf,fp_save);
