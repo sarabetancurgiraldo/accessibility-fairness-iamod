@@ -52,7 +52,7 @@ fp_save = 'output/path_flows_avgAcc_sustReg.mat';
 
 % avgAcc SustReg
 load('output/avgAcc_sustReg.mat');
-X_matrix = sol_avgAcc.X;
+X_matrix = sol_avgAccS.X;
 tm_avg = (t'*X_matrix)'./(sum(abs(D),1)'/2);
 epsilonAvgS = (max(0,60*(tm_avg-Tmax))).^2;
 fp_load = 'output/path_flows_avgAcc_sustReg.mat';
