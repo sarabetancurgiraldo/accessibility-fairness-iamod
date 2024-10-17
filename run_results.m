@@ -32,7 +32,7 @@ avgAcc = zeros(1,1,3);
 pathAcc = zeros(1,1,3);
 pathAccMILP = zeros(1,1,3);
 
-%% optimizations
+% optimizations
 
 % minTT
 str_save = 'output/minTT.mat';
@@ -47,12 +47,16 @@ str_save = 'output/pathAcc.mat';
 maxPathAcc(Tmax,nCar,str_save,G,B,D,nArcs,Xfast,Xslow,nOD, ...
            population_region,R_selector,alpha);
 
-% pathAccMILP
+% % pathAccMILP
+% str_save = 'output/pathAccMILP.mat';
+% maxPathAccMILP(G,B,pc_unique,Xfast,Xslow,D,nOD,R_selector,Nmin, ...
+%                population_region,str_save,alpha,Tmax,nArcs,nCar)
+% pathAccMILP_G
 str_save = 'output/pathAccMILP.mat';
-maxPathAccMILP(G,B,pc_unique,Xfast,Xslow,D,nOD,R_selector,Nmin, ...
-               population_region,str_save,alpha,Tmax,nArcs,nCar)
+maxPathAccMILP_G(G,B,pc_unique,Xfast,Xslow,D,nOD,R_selector,Nmin, ...
+                 population_region,str_save,alpha,Tmax,nArcs,nCar)
 
-%% path flow allocation
+% path flow allocation
 
 % minTT
 load('output/minTT.mat');
@@ -102,7 +106,7 @@ fp_save = 'output/path_flows_pathAccMILP.mat';
  pathAccMILP(1,1,2),...
  pathAccMILP(1,1,3)] = path_flows_Leo(Tmax,X_matrix,epsilonPathMILP',fp_save,D,B,G);
 
-%% Heatmap
+% Heatmap
 
 % minTT
 load('output/minTT.mat');
@@ -141,7 +145,7 @@ epsilonPathMILP = (sol_pathAccMILP.Ffast.*Efast + ...
                    sol_pathAccMILP.Fslow.*Eslow)/sum(alpha);
 fp_load = 'output/path_flows_pathAccMILP.mat';
 fp_save = 'output/AFI_heatmap_pathAccMILP.mat';
-AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPath',D,true)
+AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPathMILP',D,true)
 
 % % This is for plotting in python
 % MILP = sol_pathAccMILP.epsilon;
@@ -149,4 +153,5 @@ AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPath',D,true)
 % save(str_save_afi, "MILP")
 
 save('output/TT_AFI.mat','minTT','avgAcc','pathAcc','pathAccMILP');
+% save('output/TT_AFI.mat','pathAccMILP');
 

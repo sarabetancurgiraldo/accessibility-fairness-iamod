@@ -45,114 +45,115 @@ save("output/dest_deficit.mat", ...
      "dest_def_OD_pathAcc","dest_def_path_pathAcc")
 
 %% MinTT
-Tavg = minTT(1,1,1);
-% minTT, OD-based (average accessibility)
-fp_load = 'output/minTT.mat';
-load(fp_load)
-X = sol_mintt.X;
-fp_save = 'output/plot/modal_share_OD_minTT.mat';
-fp_save_fig = sprintf('output/figures/modal_share_OD_minTT.%s',file_typ);
-metric1 = "Acc,Avg";
-obj_minTT_OD = minTT(1,1,3);
-obj1 = sprintf("%0.4f",obj_minTT_OD);
-l = leg(metric1,obj1,"min^2",0,0);
-plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-% minTT, path-based (path accessibility)
-fp_load = 'output/path_flows_minTT.mat';
-fp_save = 'output/plot/modal_share_path_minTT.mat';
-fp_save_fig = sprintf('output/figures/modal_share_path_minTT.%s',file_typ);
-metric1 = "Acc,Path";
-obj_minTT_path = minTT(1,1,2);
-obj1 = sprintf("%0.4f",obj_minTT_path);
-l = leg(metric1,obj1,"min^2",0,0);
-plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l);
+% Tavg = minTT(1,1,1);
+% % minTT, OD-based (average accessibility)
+% fp_load = 'output/minTT.mat';
+% load(fp_load)
+% X = sol_mintt.X;
+% fp_save = 'output/plot/modal_share_OD_minTT.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_OD_minTT.%s',file_typ);
+% metric1 = "Acc,Avg";
+% obj_minTT_OD = minTT(1,1,3);
+% obj1 = sprintf("%0.4f",obj_minTT_OD);
+% l = leg(metric1,obj1,"min^2",0,0);
+% plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
+% % minTT, path-based (path accessibility)
+% fp_load = 'output/path_flows_minTT.mat';
+% fp_save = 'output/plot/modal_share_path_minTT.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_path_minTT.%s',file_typ);
+% metric1 = "Acc,Path";
+% obj_minTT_path = minTT(1,1,2);
+% obj1 = sprintf("%0.4f",obj_minTT_path);
+% l = leg(metric1,obj1,"min^2",0,0);
+% plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l);
 
+% 
+% %% AvgAcc
+% Tavg = avgAcc(1,1,1); 
+% % AvgAcc OD-metric 
+% fp_load = 'output/avgAcc.mat';
+% load(fp_load);
+% X = sol_avgAcc.X;
+% fp_save = 'output/plot/modal_share_OD_avgAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_OD_avgAcc.%s',file_typ);
+% metric1 = "Acc,Avg";
+% obj_avgAcc_OD = avgAcc(1,1,3);
+% obj1 = sprintf("%0.4f",obj_avgAcc_OD);
+% l = leg(metric1,obj1,"min^2",0,1);
+% plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
+% fp_save = 'output/plot/modal_share_OD_dest_avgAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_OD_dest_avgAcc.%s',file_typ);
+% metric2 = "\Delta N_r";
+% obj2 = sprintf("%0.4f",deltaN_OD_AvgAcc);
+% l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"N\ dest");
+% plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
+% 
+% % avgAcc path-metric 
+% fp_load = 'output/path_flows_avgAcc.mat';
+% fp_save = 'output/plot/modal_share_path_avgAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_path_avgAcc.%s',file_typ);
+% metric1 = "Acc,Path";
+% obj_avgAcc_path = avgAcc(1,1,2);
+% obj1 = sprintf("%0.4f",obj_avgAcc_path);
+% l = leg(metric1,obj1,"min^2",0,0);
+% plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l);
+% fp_save = 'output/plot/modal_share_path_dest_avgAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_path_dest_avgAcc.%s',file_typ);
+% metric2 = "\Delta N_r";
+% obj2 = sprintf("%0.4f",deltaN_path_AvgAcc);
+% l = leg(metric1,obj1,"min^2",1,0,metric2,obj2,"N\ dest");
+% plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
 
-%% AvgAcc
-Tavg = avgAcc(1,1,1); 
-% AvgAcc OD-metric 
-fp_load = 'output/avgAcc.mat';
-load(fp_load);
-X = sol_avgAcc.X;
-fp_save = 'output/plot/modal_share_OD_avgAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_OD_avgAcc.%s',file_typ);
-metric1 = "Acc,Avg";
-obj_avgAcc_OD = avgAcc(1,1,3);
-obj1 = sprintf("%0.4f",obj_avgAcc_OD);
-l = leg(metric1,obj1,"min^2",0,1);
-plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-fp_save = 'output/plot/modal_share_OD_dest_avgAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_OD_dest_avgAcc.%s',file_typ);
-metric2 = "\Delta N_r";
-obj2 = sprintf("%0.4f",deltaN_OD_AvgAcc);
-l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"N\ dest");
-plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-
-% avgAcc path-metric 
-fp_load = 'output/path_flows_avgAcc.mat';
-fp_save = 'output/plot/modal_share_path_avgAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_path_avgAcc.%s',file_typ);
-metric1 = "Acc,Path";
-obj_avgAcc_path = avgAcc(1,1,2);
-obj1 = sprintf("%0.4f",obj_avgAcc_path);
-l = leg(metric1,obj1,"min^2",0,0);
-plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l);
-fp_save = 'output/plot/modal_share_path_dest_avgAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_path_dest_avgAcc.%s',file_typ);
-metric2 = "\Delta N_r";
-obj2 = sprintf("%0.4f",deltaN_path_AvgAcc);
-l = leg(metric1,obj1,"min^2",1,0,metric2,obj2,"N\ dest");
-plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-
-%% pathAcc 
-Tavg = pathAcc(1,1,1); 
-% pathAcc OD-metric 
-fp_load = 'output/pathAcc.mat';
-load(fp_load)
-X = sol_pathAcc.X;
-fp_save = 'output/plot/modal_share_OD_pathAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_OD_pathAcc.%s',file_typ);
-metric1 = "Acc,Avg";
-obj_pathAcc_OD = pathAcc(1,1,3);
-obj1 = sprintf("%0.4f",obj_pathAcc_OD);
-l = leg(metric1,obj1,"min^2",0,0);
-plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-fp_save = 'output/plot/modal_share_OD_dest_pathAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_OD_dest_pathAcc.%s',file_typ);
-metric2 = "\Delta N_r";
-obj2 = sprintf("%0.4f",deltaN_OD_pAcc);
-l = leg(metric1,obj1,"min^2",1,0,metric2,obj2,"N\ dest");
-plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
-
-% pathAcc path-metric
-fp_load = 'output/path_flows_pathAcc.mat';
-fp_save = 'output/plot/modal_share_path_pathAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_path_pathAcc.%s',file_typ);
-metric1 = "Acc,Path";
-obj_pathAcc_path = pathAcc(1,1,2);
-obj1 = sprintf("%0.4f",obj_pathAcc_path);
-l = leg(metric1,obj1,"min^2",0,1);
-plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l);
-fp_save = 'output/plot/modal_share_path_dest_pathAcc.mat';
-fp_save_fig = sprintf('output/figures/modal_share_path_dest_pathAcc.%s',file_typ);
-metric2 = "\Delta N_r";
-obj2 = sprintf("%0.4f",deltaN_path_pAcc);
-l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"N\ dest");
-plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
-                        D,maxY,l,X);
+% %% pathAcc 
+% Tavg = pathAcc(1,1,1); 
+% % pathAcc OD-metric 
+% fp_load = 'output/pathAcc.mat';
+% load(fp_load)
+% X = sol_pathAcc.X;
+% fp_save = 'output/plot/modal_share_OD_pathAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_OD_pathAcc.%s',file_typ);
+% metric1 = "Acc,Avg";
+% obj_pathAcc_OD = pathAcc(1,1,3);
+% obj1 = sprintf("%0.4f",obj_pathAcc_OD);
+% l = leg(metric1,obj1,"min^2",0,0);
+% plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
+% fp_save = 'output/plot/modal_share_OD_dest_pathAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_OD_dest_pathAcc.%s',file_typ);
+% metric2 = "\Delta N_r";
+% obj2 = sprintf("%0.4f",deltaN_OD_pAcc);
+% l = leg(metric1,obj1,"min^2",1,0,metric2,obj2,"N\ dest");
+% plot_modal_share_legend(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
+% 
+% % pathAcc path-metric
+% fp_load = 'output/path_flows_pathAcc.mat';
+% fp_save = 'output/plot/modal_share_path_pathAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_path_pathAcc.%s',file_typ);
+% metric1 = "Acc,Path";
+% obj_pathAcc_path = pathAcc(1,1,2);
+% obj1 = sprintf("%0.4f",obj_pathAcc_path);
+% l = leg(metric1,obj1,"min^2",0,1);
+% plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l);
+% fp_save = 'output/plot/modal_share_path_dest_pathAcc.mat';
+% fp_save_fig = sprintf('output/figures/modal_share_path_dest_pathAcc.%s',file_typ);
+% metric2 = "\Delta N_r";
+% obj2 = sprintf("%0.4f",deltaN_path_pAcc);
+% l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"N\ dest");
+% plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
+%                         D,maxY,l,X);
 
 % MILP
 
-load('output/pathAccMILP.mat')
+fp_load = 'output/pathAccMILP.mat';
+load(fp_load)
 load('output/AFI_heatmap_pathAccMILP.mat');
 MILPobj_N = population_region'*sol_pathAccMILP.epsilon/sum(population_region);
 MILPobj_OD_t = population_region'*(R_selector*(AFI_epsilons.*alpha')./(R_selector*alpha'))/sum(population_region);
@@ -184,19 +185,19 @@ plot_modal_share_legend(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
 
 T_max = Tmax;
 
-% OD-based (Average)
-minTT = load('output/plot/modal_share_OD_minTT.mat');
+% % OD-based (Average)
+% minTT = load('output/plot/modal_share_OD_minTT.mat');
 AvgAcc = load('output/plot/modal_share_OD_avgAcc.mat');
 pathAcc = load('output/plot/modal_share_OD_pathAcc.mat');
 destAcc = load('output/plot/modal_share_OD_destAcc.mat');
 
-% AvgAcc vs minTT
-fp_save = sprintf('output/figures/modal_share_dif_OD_AvgTT.%s',file_typ);
-plot_modal_share_dif(T_max, AvgAcc, minTT, fp_save, 'Average')
-
-% AvgAcc vs PathAcc 
-fp_save = sprintf('output/figures/modal_share_dif_OD_AvgPath.%s',file_typ);
-plot_modal_share_dif(T_max, AvgAcc, pathAcc, fp_save, 'Average')
+% % AvgAcc vs minTT
+% fp_save = sprintf('output/figures/modal_share_dif_OD_AvgTT.%s',file_typ);
+% plot_modal_share_dif(T_max, AvgAcc, minTT, fp_save, 'Average')
+% 
+% % AvgAcc vs PathAcc 
+% fp_save = sprintf('output/figures/modal_share_dif_OD_AvgPath.%s',file_typ);
+% plot_modal_share_dif(T_max, AvgAcc, pathAcc, fp_save, 'Average')
 
 % AvgAcc vs Dest
 fp_save = sprintf('output/figures/modal_share_dif_OD_AvgDest.%s',file_typ);
@@ -213,13 +214,13 @@ AvgAcc = load('output/plot/modal_share_path_avgAcc.mat');
 pathAcc = load('output/plot/modal_share_path_pathAcc.mat');
 destAcc = load('output/plot/modal_share_path_destAcc.mat');
 
-% AvgAcc vs minTT
-fp_save = sprintf('output/figures/modal_share_dif_path_AvgTT.%s',file_typ);
-plot_modal_share_dif(T_max, AvgAcc, minTT, fp_save, 'Path')
-
-% AvgAcc vs PathAcc
-fp_save = sprintf('output/figures/modal_share_dif_path_AvgPath.%s',file_typ);
-plot_modal_share_dif(T_max, AvgAcc, pathAcc, fp_save, 'Path')
+% % AvgAcc vs minTT
+% fp_save = sprintf('output/figures/modal_share_dif_path_AvgTT.%s',file_typ);
+% plot_modal_share_dif(T_max, AvgAcc, minTT, fp_save, 'Path')
+% 
+% % AvgAcc vs PathAcc
+% fp_save = sprintf('output/figures/modal_share_dif_path_AvgPath.%s',file_typ);
+% plot_modal_share_dif(T_max, AvgAcc, pathAcc, fp_save, 'Path')
 
 % AvgAcc vs dest
 fp_save = sprintf('output/figures/modal_share_dif_path_AvgDest.%s',file_typ);
