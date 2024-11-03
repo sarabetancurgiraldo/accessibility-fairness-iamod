@@ -56,8 +56,8 @@ xticks(0:5:60);
 %     xticklabels(round(60*edges(2:end),2)-step_bins/2)
 % end
 
-lgd = legend('Car','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$');
-lgd.FontSize = 12;
+% lgd = legend('Car','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$');
+% lgd.FontSize = 12;
 
 if save_fig
     exportgraphics(gcf,fp_save);

@@ -273,7 +273,7 @@ with open(fp, 'rb') as f:
 
 color_pink = (204/255, 121/255, 167/255)
 
-fp_matlab = os.path.join(os.getcwd(), 'mt-betancour\\model')
+fp_matlab = os.path.join(os.getcwd(), 'model')
 
 D_matlab = loadmat(fp_matlab + '\\data_g.mat')
 D = D_matlab['D']
@@ -312,7 +312,7 @@ plt.rc('axes.spines', **{'bottom':True, 'left':True, 'right':False, 'top':False}
 orig_map=plt.colormaps['RdBu'] 
 reversed_map = orig_map.reversed() 
 
-fp = os.path.join(os.getcwd(), 'mt-betancour\\output')
+fp = os.path.join(os.getcwd(), 'output')
 form = 'svg'
 # form = 'pdf'
 dpi = 500
@@ -325,7 +325,8 @@ nr = pc4_info['population']
 
 # folder_ = os.path.join(os.getcwd(), 'mt-betancour\\Karel\\metrics\\try\\')
 # folder_ = os.path.join(os.getcwd(), 'mt-betancour\\figures\\')
-folder_ = os.path.join(os.getcwd(), 'mt-betancour\\output\\paper\\figures\\')
+# folder_ = os.path.join(os.getcwd(), 'mt-betancour\\output\\paper\\figures\\')
+folder_ = os.path.join(os.getcwd(), 'check\\')
 '''
 for Tmax in ['20']:#['15','20']:
     
@@ -751,8 +752,8 @@ fp = folder_
 # plot_paths(paths_maxAcc,D,edges_matlab,'network',nodes,edges,[],G_ocbwptd,'improve',fp,form,1)
 
 
-plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[438,1085],G_ocbwptd,'improve',fp,form,0)
-plot_paths(paths_pathAcc,D,edges_matlab,'Path Acc',nodes,edges,[438,1085],G_ocbwptd,'improve',fp,form,0)
+# plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[438,1085],G_ocbwptd,'improve',fp,form,0)
+# plot_paths(paths_pathAcc,D,edges_matlab,'Path Acc',nodes,edges,[438,1085],G_ocbwptd,'improve',fp,form,0)
 
 
 # for j in paths_plot2:
