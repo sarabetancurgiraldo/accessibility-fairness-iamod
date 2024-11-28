@@ -69,7 +69,11 @@ pc_ = zeros(nNodes, 1);
 for i = 1:nNodes
     if G.Nodes.Type(i)=='o'
         ind = find(origin_nodes_ind == i-1);
-        pc_(i) = str2double(origin_pc(ind,:));
+        pc = origin_pc(ind,:);
+        if pc == '5633'
+            pc = '5632';
+        end
+        pc_(i) = str2double(pc);
 %     elseif G.Nodes.Type(i)=='d'
 %         ind = find(destination_nodes_ind == i-1);
 %         pc_(i) = deatination_pc(ind);
@@ -78,7 +82,7 @@ end
 
 G.Nodes.PC = pc_;
 %% %Build D matrix of od-pairs and demand for flow optimization
-D = [];
+% D = [];
 % for i = 1:nO
 %     for j = 1:nOD
 %         % check which origins go to which destinations 
