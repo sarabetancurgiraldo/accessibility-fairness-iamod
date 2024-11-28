@@ -792,8 +792,10 @@ def save_matlab(G, pc4_info, G_no_car, full_demand):
     save_mat = os.path.join(os.getcwd(), 
                             'variables\\matlab_data_Eindhoven.mat')
     scipy.io.savemat(save_mat,data)
-    
-    with open(save_mat, 'wb') as f:  
+
+    save_pkl = os.path.join(os.getcwd(), 
+                            'variables\\matlab_data_Eindhoven.pkl')    
+    with open(save_pkl, 'wb') as f:  
         pickle.dump(data, f)
     
     return data

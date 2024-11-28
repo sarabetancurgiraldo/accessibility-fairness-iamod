@@ -1,8 +1,8 @@
 close all; clear; clc;
 
 load("model\data_g.mat");
-load("..\variables\matlab_data_od_paths.mat");
-load("..\variables\matlab_data_Eindhoven.mat");
+load("variables\matlab_data_od_paths.mat");
+load("variables\matlab_data_Eindhoven.mat");
 
 %% Flow matrices for shortest paths
 
