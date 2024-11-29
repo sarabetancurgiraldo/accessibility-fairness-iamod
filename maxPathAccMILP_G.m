@@ -45,7 +45,7 @@ Cons            = [Bcar*(sum(X(arcsCar,:),2)+xR)                == 0;
                    Ffast                                        >= 0;
                    Fslow                                        >= 0
                    (Ffast.*Efast+Fslow.*Eslow)./alpha           <= (1-b)*M; %Remove -Tmax
-                   epsilon                                      >= Nmin - N;   %here epsilon would be delta Nr
+                   epsilon                                      >= (Nmin - N)/Nmin;   %here epsilon would be delta Nr
                    epsilon                                      >= 0]; 
 
 

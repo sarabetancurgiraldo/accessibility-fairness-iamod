@@ -184,7 +184,7 @@ dict_weird_nodes = {'5647': '5646',
                     '5685': '5688', 
                     '5681': '5683', 
                     '5692': '5629', 
-                    '5691': '5633', 
+                    '5691': '5632', 
                     '5513': '5657', 
                     '5614': '5613', 
                     '5511': '5505', 
@@ -201,8 +201,8 @@ orig_map=plt.colormaps['RdBu']
 reversed_map = orig_map.reversed() 
 
 fp = os.path.join(os.getcwd(), 'output')
-form = 'svg'
-# form = 'pdf'
+# form = 'svg'
+form = 'pdf'
 dpi = 500
 
 min_lst = []
