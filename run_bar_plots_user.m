@@ -25,20 +25,20 @@ Nmin            = 35;
 % Avg-Acc DestDeficit
 load("output/AFI_heatmap_avgAcc.mat");
 b_OD = zeros(nOD,1); b_OD(find(~AFI_epsilons)) = 1; 
-dest_def_OD_AvgAcc = max(0,Nmin-R_selector*b_OD);
-deltaN_OD_AvgAcc = population_region'*dest_def_OD_AvgAcc/sum(population_region)/Nmin;
+dest_def_OD_AvgAcc = max(0,(Nmin-R_selector*b_OD)/Nmin);
+deltaN_OD_AvgAcc = population_region'*dest_def_OD_AvgAcc/sum(population_region);%/Nmin;
 b_path = zeros(nOD,1); b_path(find(~AFI)) = 1; 
-dest_def_path_AvgAcc = max(0,Nmin-R_selector*b_path);
-deltaN_path_AvgAcc = population_region'*dest_def_path_AvgAcc/sum(population_region)/Nmin;
+dest_def_path_AvgAcc = max(0,(Nmin-R_selector*b_path)/Nmin);
+deltaN_path_AvgAcc = population_region'*dest_def_path_AvgAcc/sum(population_region);%/Nmin;
 
 % Path-Acc DestDeficit
 load("output/AFI_heatmap_pathAcc.mat");
 b_OD = zeros(nOD,1); b_OD(find(~AFI_epsilons)) = 1; 
-dest_def_OD_pathAcc = max(0,Nmin-R_selector*b_OD);
-deltaN_OD_pAcc = population_region'*dest_def_OD_pathAcc/sum(population_region)/Nmin;
+dest_def_OD_pathAcc = max(0,(Nmin-R_selector*b_OD)/Nmin);
+deltaN_OD_pAcc = population_region'*dest_def_OD_pathAcc/sum(population_region);%/Nmin;
 b_path = zeros(nOD,1); b_path(find(~AFI)) = 1; 
-dest_def_path_pathAcc = max(0,Nmin-R_selector*b_path);
-deltaN_path_pAcc = population_region'*dest_def_path_pathAcc/sum(population_region)/Nmin;
+dest_def_path_pathAcc = max(0,(Nmin-R_selector*b_path)/Nmin);
+deltaN_path_pAcc = population_region'*dest_def_path_pathAcc/sum(population_region);%/Nmin;
 
 save("output/dest_deficit.mat", ...
      "dest_def_OD_AvgAcc","dest_def_path_AvgAcc", ...
@@ -155,7 +155,8 @@ plot_modal_share_legend_user(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
 fp_load = 'output/pathAccMILP.mat';
 load(fp_load)
 load('output/AFI_heatmap_pathAccMILP.mat');
-MILPobj_N = population_region'*sol_pathAccMILP.epsilon/sum(population_region)/Nmin;
+eps = (sol_pathAccMILP.epsilon)/Nmin;
+MILPobj_N = population_region'*eps/sum(population_region);%/Nmin;
 MILPobj_OD_t = pathAccMILP(1,1,3);
 % MILPobj_OD_t = population_region'*(R_selector*(AFI_epsilons.*alpha')./(R_selector*alpha'))/sum(population_region);
 MILPobj_path_t = pathAccMILP(1,1,2);
