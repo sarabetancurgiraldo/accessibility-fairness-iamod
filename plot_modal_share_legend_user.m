@@ -1,4 +1,4 @@
-function plot_modal_share_legend(T_max,accType,fp_load,fp_save, ...
+function plot_modal_share_legend_user(T_max,accType,fp_load,fp_save, ...
                                  fp_save_fig,Tavg,G,D,maxY,l,X)
 
 %% Notes
@@ -139,7 +139,7 @@ xticks(0:5:60);
 x_Tavg = Tavg;
 xline(x_Tavg,'--','Linewidth',3,'Color','k'); %5.4
 
-legend('Car','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$','$T_\mathrm{avg}$','fontsize',12);
+legend('AMoD','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$','$T_\mathrm{avg}$','fontsize',12);
 t = annotation("textbox");
 t.FontSize = 14;
 t.Interpreter = 'latex';
@@ -153,7 +153,7 @@ if accType
 else  
     xlabel('Commute Travel Time $[\mathrm{min}]$','fontsize',14);
 end
-ylabel('Time-based Modal Share $[\mathrm{h}]$','fontsize',14)
+ylabel('User Modal Share $[\mathrm{users}]$','fontsize',14)
 
 
 if save_fig
