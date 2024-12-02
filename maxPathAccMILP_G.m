@@ -45,7 +45,7 @@ Cons            = [Bcar*(sum(X(arcsCar,:),2)+xR)                == 0;
                    Ffast                                        >= 0;
                    Fslow                                        >= 0
                    (Ffast.*Efast+Fslow.*Eslow)./alpha           <= (1-b)*M; %Remove -Tmax
-                   epsilon                                      >= (Nmin - N);%/Nmin;   %here epsilon would be delta Nr
+                   epsilon                                      >= (Nmin - N)/Nmin;   %here epsilon would be delta Nr
                    epsilon                                      >= 0]; 
 
 
@@ -54,7 +54,7 @@ Cons            = [Bcar*(sum(X(arcsCar,:),2)+xR)                == 0;
 % Objective
 Obj             = (population_region' * epsilon + ... 
                    1e2*t'*X*ones(size(D,2),1)/sum(abs(D),"all"))...
-                   /(sum(population_region)*Nmin);
+                   /(sum(population_region));%*Nmin);
 
 options         = sdpsettings('verbose', 1, ...
                               'solver', 'gurobi', ...

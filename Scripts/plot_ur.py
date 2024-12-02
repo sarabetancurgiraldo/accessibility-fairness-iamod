@@ -212,7 +212,7 @@ pc_info = pc4d_join
 nr = pc4_info['population']
 
 
-folder_ = os.path.join(os.getcwd(), 'output\\figures\\')
+folder_ = os.path.join(os.getcwd(), 'output\\figures\\user')
 
 
 Tmax = '20'
