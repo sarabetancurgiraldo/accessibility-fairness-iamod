@@ -11,7 +11,8 @@ load("model/data_shortPaths.mat");
 %% Variables
 
 % nCar = 4e3; 
-nCarRange = [1e3 2e3 4e3]; 
+% nCarRange = [1e3 2e3 4e3];
+nCarRange = [2e3]; 
 Tmax = 20/60;
 Nmin = 35;
 
@@ -158,6 +159,7 @@ AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPathMILP',D,true)
 % save(str_save_afi, "MILP")
 end
 
-save('output/nCar/TT_AFI.mat','minTT','avgAcc','pathAcc','pathAccMILP');
+str_save = sprintf('output/nCar/TT_AFI_%d.mat',nCar);
+save(str_save,'minTT','avgAcc','pathAcc','pathAccMILP');
 
 
