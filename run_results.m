@@ -12,7 +12,7 @@ load("model/data_shortPaths.mat");
 
 % nCar = 4e3; 
 % nCarRange = [1e3 2e3 4e3];
-nCarRange = [3e3]; 
+nCarRange = [1e3 3e3 4e3]; 
 Tmax = 20/60;
 Nmin = 35;
 
