@@ -139,7 +139,7 @@ xticks(0:5:60);
 x_Tavg = Tavg;
 xline(x_Tavg,'--','Linewidth',3,'Color','k'); %5.4
 
-legend('AMoD','Bike','Walk','PT','Waiting PT','$T_\mathrm{max}$','$T_\mathrm{avg}$','fontsize',12);
+legend('AMoD','Bike','Walk','PT','Waiting PT','$T_\mathrm{suff}$','$T_\mathrm{avg}$','fontsize',12);
 t = annotation("textbox");
 t.FontSize = 14;
 t.Interpreter = 'latex';
