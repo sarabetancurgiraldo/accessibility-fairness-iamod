@@ -38,7 +38,7 @@ epsilon         = sdpvar(nR, 1, 'full');
 dim_f           = ones(nArcs,1);
 X               = dim_f*Ffast.*Xfast + dim_f*Fslow.*Xslow;
 N               = R_selector * b'; % N means number of reachable destinations per every region
-u_r             = (Nmin - N);
+u_r             = (Nmin - N)/Nmin;
 
 % Constraints
 Cons            = [Bcar*(sum(X(arcsCar,:),2)+xR)                == 0;
@@ -48,7 +48,7 @@ Cons            = [Bcar*(sum(X(arcsCar,:),2)+xR)                == 0;
                    Ffast                                        >= 0;
                    Fslow                                        >= 0
                    (Ffast.*Efast+Fslow.*Eslow)./alpha           <= (1-b)*M; %Remove -Tmax
-                   epsilon                                      >= u_r/Nmin;   %here epsilon would be delta Nr
+                   epsilon                                      >= u_r;   %here epsilon would be delta Nr
                    epsilon                                      >= 0]; 
 
 

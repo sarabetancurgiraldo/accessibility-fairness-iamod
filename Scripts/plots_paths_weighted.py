@@ -87,6 +87,7 @@ def plot_paths(paths,D,edges_matlab,title,nodes,edges,ods,G,type_od,fp,form,net)
         flow_od_ = np.where(flow_od < eps_od_sl, 0, flow_od)
                 
         # edges_in_path =  np.nonzero(flow_od_)[0]
+        # edg_path = [edges[i] for i in edges_in_path]
         # path_draw = [edges[ind_edge]
         #               for ind_edge in edges_in_path]
         
@@ -136,7 +137,7 @@ def plot_paths(paths,D,edges_matlab,title,nodes,edges,ods,G,type_od,fp,form,net)
                 transparent = True,
                 format = form, #'svg', 
                 dpi = 100)
-    plt.close()
+    # plt.close()
 
     
 
@@ -251,8 +252,8 @@ for nCar in nCarRange:
     for ed1, ed2 in switch_edg:
         G_plot[ed1][ed2]['color'] = color_yellow
     
-    plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
-    plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
+    # plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
+    # plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
     plot_paths(paths_pathAcc,D,edges_matlab,'Path Acc',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
-    plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc_460',nodes,edges,[460],G_plot,'improve',fp,form,0)
+    # plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc_460',nodes,edges,[460],G_plot,'improve',fp,form,0)
 

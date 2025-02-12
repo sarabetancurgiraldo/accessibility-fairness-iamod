@@ -26,7 +26,7 @@ load('output/nCar/TT_AFI_4000.mat');
 % Path-Acc DestDeficit
 load(sprintf('output/nCar/%d/AFI_heatmap_pathAcc.mat',nCar));
 b_path = zeros(nOD,1); b_path(find(~AFI)) = 1; 
-dest_def_path_pathAcc = max(0,(Nmin-R_selector*b_path).^2/Nmin);
+dest_def_path_pathAcc = max(0,((Nmin-R_selector*b_path)/Nmin).^2);
 deltaN_path_pAcc = population_region'*dest_def_path_pathAcc/sum(population_region);%/Nmin;
 
 Tavg = pathAcc(1,2,1); 
@@ -51,7 +51,8 @@ plot_modal_share_legend_user(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
 fp_load = sprintf('output/nCar/%d/MIQP.mat',nCar);
 load(fp_load)
 load(sprintf('output/nCar/%d/AFI_heatmap_MIQP.mat',nCar));
-eps = (sol_MIQP.epsilon)/Nmin;
+b_path = zeros(nOD,1); b_path(find(~AFI)) = 1; 
+eps = max(0,((Nmin-R_selector*b_path)/Nmin).^2);
 MIQPobj_N = population_region'*eps/sum(population_region);%/Nmin;
 MIQPobj_OD_t = MIQP(1,i_nCar,3);
 MIQPobj_path_t = MIQP(1,i_nCar,2);

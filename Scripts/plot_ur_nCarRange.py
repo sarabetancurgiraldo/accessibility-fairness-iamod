@@ -452,4 +452,32 @@ for nCar in nCarRange:
                       'ur_dest_def_path_MIQP_heatmap', folder, form, dpi)
 
 
+# population
+
+pc_population = load_m_MIQP['population_region']
+pc_info_pop = pc_info.copy()
+pc_info_pop = pc_info_dest.reset_index(drop=True)
+
+pop = {str(v[0]): {'population_region': pc_population[i][0],}
+       for i, v in enumerate(pc_unique)}
+
+for pc1, pc2 in dict_weird_nodes.items():
+    pop[pc1] = pop[pc2]
+
+pc_info_pop['population_region'] = np.nan
+
+pc_info_pop = pc_info_pop.reset_index(drop=True)
+
+for pc in pop.keys():
+    ind = pc_info_dest.loc[pc_info['postcode4'] == pc].index[0]
+    pc_info_pop.loc[ind, 'population_region'] = pop[pc]['population_region']
+    
+pc_info_pop = geopandas.GeoDataFrame(pc_info_pop, crs="EPSG:4326")
+
+min_v = min(pc_population)
+max_v = max(pc_population)
+
+col_name = 'population_region'
+plot_afi_heatmap(pc_info_pop, col_name, leg_label,  min_v, max_v, reversed_map, 
+                  'population_region', folder, form, dpi)
 

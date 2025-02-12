@@ -61,8 +61,8 @@ fp_save = sprintf('output/nCar/%d/path_flows_MIQP.mat',nCar);
 
 % MIQP
 load(sprintf('output/nCar/%d/MIQP.mat',nCar))
-Efast = max(0,60*(sol_MIQP.tfast-Tmax)).^2;
-Eslow = max(0,60*(sol_MIQP.tslow-Tmax)).^2;
+Efast = max(0,60*(sol_MIQP.tfast-Tmax));%.^2;
+Eslow = max(0,60*(sol_MIQP.tslow-Tmax));%.^2;
 epsilonPathMIQP = (sol_MIQP.Ffast.*Efast + ...
                    sol_MIQP.Fslow.*Eslow)/sum(alpha);
 fp_load = sprintf('output/nCar/%d/path_flows_MIQP.mat',nCar);

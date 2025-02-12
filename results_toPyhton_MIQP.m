@@ -31,18 +31,20 @@ avg_MIQP = AFIdestDef.AFI_epsilons;
 
 %% Ur in matlab for python
 
-ur_dest_def_path_dest = sol_MIQP.epsilon;
+% ur_dest_def_path_dest = sol_MIQP.epsilon;
+b_path = zeros(nOD,1); b_path(find(~path_MIQP)) = 1; 
+ur_dest_def_path_dest = max(0,((Nmin-R_selector*b_path)/Nmin).^2);
 
 % Path-Acc DestDeficit
 load(sprintf('output/nCar/%d/AFI_heatmap_pathAcc.mat',nCar));
 b_OD = zeros(nOD,1); b_OD(find(~AFI_epsilons)) = 1; 
-dest_def_OD_pathAcc = max(0,(Nmin-R_selector*b_OD).^2/Nmin);
+dest_def_OD_pathAcc = max(0,((Nmin-R_selector*b_OD)/Nmin).^2);
 b_path = zeros(nOD,1); b_path(find(~AFI)) = 1; 
-dest_def_path_pathAcc = max(0,(Nmin-R_selector*b_path).^2/Nmin);
+dest_def_path_pathAcc = max(0,((Nmin-R_selector*b_path)/Nmin).^2);
 
 
 str_save = sprintf('output/nCar/%d/matlab_python_T%d_MIQP.mat',nCar,Tmax*60);
 save(str_save, "X_MIQP", "path_MIQP", "avg_MIQP", ...
                "dest_def_OD_pathAcc","dest_def_path_pathAcc", ...
-               "ur_dest_def_path_dest", "pc_unique") 
+               "ur_dest_def_path_dest", "pc_unique","population_region") 
 end
