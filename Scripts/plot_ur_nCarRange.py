@@ -330,9 +330,6 @@ for nCar in nCarRange:
     ur_pathAcc_avg_dest = load_m['ur_pathAcc_avg_dest']
     ur_pathAcc_path_dest = load_m['ur_pathAcc_path_dest']
     ur_dest_def_path_dest = load_m['ur_dest_def_path_dest']
-    ur_pathAcc_avg_dest_MIQP = load_m_MIQP['dest_def_OD_pathAcc']
-    ur_pathAcc_path_dest_MIQP = load_m_MIQP['dest_def_path_pathAcc']
-    ur_dest_def_path_dest_MIQP = load_m_MIQP['ur_dest_def_path_dest']
     
     pc_unique = load_m['pc_unique']
     
@@ -342,10 +339,7 @@ for nCar in nCarRange:
                       'ur_avgAcc_path_dest': ur_avgAcc_path_dest[i][0],
                       'ur_pathAcc_avg_dest': ur_pathAcc_avg_dest[i][0],
                       'ur_pathAcc_path_dest': ur_pathAcc_path_dest[i][0],
-                      'ur_dest_def_path_dest': ur_dest_def_path_dest[i][0],
-                      'ur_pathAcc_avg_dest_MIQP': ur_pathAcc_avg_dest_MIQP[i][0],
-                      'ur_pathAcc_path_dest_MIQP': ur_pathAcc_path_dest_MIQP[i][0],
-                      'ur_dest_def_path_dest_MIQP': ur_dest_def_path_dest_MIQP[i][0],}
+                      'ur_dest_def_path_dest': ur_dest_def_path_dest[i][0],}
           for i, v in enumerate(pc_unique)}
     
     for pc1, pc2 in dict_weird_nodes.items():
@@ -360,9 +354,6 @@ for nCar in nCarRange:
     pc_info_dest['ur_pathAcc_avg_dest'] = np.nan
     pc_info_dest['ur_pathAcc_path_dest'] = np.nan
     pc_info_dest['ur_dest_def_path_dest'] = np.nan
-    pc_info_dest['ur_pathAcc_avg_dest_MIQP'] = np.nan
-    pc_info_dest['ur_pathAcc_path_dest_MIQP'] = np.nan
-    pc_info_dest['ur_dest_def_path_dest_MIQP'] = np.nan
     
     pc_info_dest = pc_info_dest.reset_index(drop=True)
     
@@ -375,9 +366,6 @@ for nCar in nCarRange:
         pc_info_dest.loc[ind, 'ur_pathAcc_avg_dest'] = ur[pc]['ur_pathAcc_avg_dest']
         pc_info_dest.loc[ind, 'ur_pathAcc_path_dest'] = ur[pc]['ur_pathAcc_path_dest']
         pc_info_dest.loc[ind, 'ur_dest_def_path_dest'] = ur[pc]['ur_dest_def_path_dest']
-        pc_info_dest.loc[ind, 'ur_pathAcc_avg_dest_MIQP'] = ur[pc]['ur_pathAcc_avg_dest_MIQP']
-        pc_info_dest.loc[ind, 'ur_pathAcc_path_dest_MIQP'] = ur[pc]['ur_pathAcc_path_dest_MIQP']
-        pc_info_dest.loc[ind, 'ur_dest_def_path_dest_MIQP'] = ur[pc]['ur_dest_def_path_dest_MIQP']
     
     pc_info_dest = geopandas.GeoDataFrame(pc_info_dest, crs="EPSG:4326")
     
@@ -386,18 +374,10 @@ for nCar in nCarRange:
                 min(ur_pathAcc_avg_dest),min(ur_pathAcc_path_dest),
                 min(ur_dest_def_path_dest),)
     
-    min_MIQP = min(min(ur_pathAcc_avg_dest_MIQP),
-                   min(ur_pathAcc_path_dest_MIQP),
-                   min(ur_dest_def_path_dest_MIQP))
-    
     max_v = max(max(ur_minTT_avg_dest),max(ur_minTT_path_dest),
                 max(ur_avgAcc_avg_dest),max(ur_avgAcc_path_dest),
                 max(ur_pathAcc_avg_dest),max(ur_pathAcc_path_dest),
                 max(ur_dest_def_path_dest))
-    
-    max_MIQP = max(max(ur_pathAcc_avg_dest_MIQP),
-                   max(ur_pathAcc_path_dest_MIQP),
-                   max(ur_dest_def_path_dest_MIQP))
     
     Tmax = '20'
     
@@ -437,21 +417,110 @@ for nCar in nCarRange:
 
     
     
+    ur_minTT_avg_dest_MIQP = load_m_MIQP['dest_def_OD_minTT']
+    ur_minTT_path_dest_MIQP = load_m_MIQP['dest_def_path_minTT']
+    ur_avgAcc_avg_dest_MIQP = load_m_MIQP['dest_def_OD_avgAcc']
+    ur_avgAcc_path_dest_MIQP = load_m_MIQP['dest_def_path_avgAcc']
+    ur_pathAcc_avg_dest_MIQP = load_m_MIQP['dest_def_OD_pathAcc']
+    ur_pathAcc_path_dest_MIQP = load_m_MIQP['dest_def_path_pathAcc']
+    ur_dest_def_path_dest_MIQP = load_m_MIQP['ur_dest_def_path_dest']
+    
+    
+    ur_MIQP = {str(v[0]): {'ur_minTT_avg_dest_MIQP': ur_minTT_avg_dest_MIQP[i][0],
+                           'ur_minTT_path_dest_MIQP': ur_minTT_path_dest_MIQP[i][0],
+                           'ur_avgAcc_avg_dest_MIQP': ur_avgAcc_avg_dest_MIQP[i][0],
+                           'ur_avgAcc_path_dest_MIQP': ur_avgAcc_path_dest_MIQP[i][0],
+                           'ur_pathAcc_avg_dest_MIQP': ur_pathAcc_avg_dest_MIQP[i][0],
+                           'ur_pathAcc_path_dest_MIQP': ur_pathAcc_path_dest_MIQP[i][0],
+                           'ur_dest_def_path_dest_MIQP': ur_dest_def_path_dest_MIQP[i][0],}
+          for i, v in enumerate(pc_unique)}
+    
+    for pc1, pc2 in dict_weird_nodes.items():
+        ur_MIQP[pc1] = ur_MIQP[pc2]
+    
+    pc_info_dest_MIQP = pc4d_join.copy()
+    
+    pc_info_dest_MIQP['ur_minTT_avg_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_minTT_path_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_avgAcc_avg_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_avgAcc_path_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_pathAcc_avg_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_pathAcc_path_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_dest_def_path_dest_MIQP'] = np.nan
+    
+    pc_info_dest_MIQP = pc_info_dest_MIQP.reset_index(drop=True)
+    
+    for pc in ur.keys():
+        ind = pc_info_dest_MIQP.loc[pc_info['postcode4'] == pc].index[0]
+        pc_info_dest_MIQP.loc[ind, 'ur_minTT_avg_dest_MIQP'] = ur_MIQP[pc]['ur_minTT_avg_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_minTT_path_dest_MIQP'] = ur_MIQP[pc]['ur_minTT_path_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_avgAcc_avg_dest_MIQP'] = ur_MIQP[pc]['ur_avgAcc_avg_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_avgAcc_path_dest_MIQP'] = ur_MIQP[pc]['ur_avgAcc_path_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_pathAcc_avg_dest_MIQP'] = ur_MIQP[pc]['ur_pathAcc_avg_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_pathAcc_path_dest_MIQP'] = ur_MIQP[pc]['ur_pathAcc_path_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_dest_def_path_dest_MIQP'] = ur_MIQP[pc]['ur_dest_def_path_dest_MIQP']
+    
+    pc_info_dest_MIQP = geopandas.GeoDataFrame(pc_info_dest_MIQP, crs="EPSG:4326")
+    
+    min_MIQP = min(min(ur_minTT_avg_dest_MIQP),
+                   min(ur_minTT_path_dest_MIQP),
+                   min(ur_avgAcc_avg_dest_MIQP),
+                   min(ur_avgAcc_path_dest_MIQP),
+                   min(ur_pathAcc_avg_dest_MIQP),
+                   min(ur_pathAcc_path_dest_MIQP),
+                   min(ur_dest_def_path_dest_MIQP))
+       
+    max_MIQP = max(max(ur_minTT_avg_dest_MIQP),
+                   max(ur_minTT_path_dest_MIQP),
+                   max(ur_avgAcc_avg_dest_MIQP),
+                   max(ur_avgAcc_path_dest_MIQP),
+                   max(ur_pathAcc_avg_dest_MIQP),
+                   max(ur_pathAcc_path_dest_MIQP),
+                   max(ur_dest_def_path_dest_MIQP))
+    
+    
+    str_folder = 'output\\nCar\\' + str(int(nCar)) + '\\figures\\accSuff'
+    
+    folder_ = os.path.join(os.getcwd(), str_folder)
+    
+    folder = os.path.join(folder_, 'dest_')
+    
+    col_name = 'ur_minTT_avg_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_minTT_avg_dest_MIQP', folder, form, dpi)
+
+    
+    col_name = 'ur_minTT_path_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_minTT_path_dest_MIQP', folder, form, dpi)
+
+    
+    col_name = 'ur_avgAcc_avg_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_avgAcc_avg_dest_MIQP', folder, form, dpi)
+
+    
+    col_name = 'ur_avgAcc_path_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_avgAcc_path_dest_MIQP', folder, form, dpi)
+
+    
     col_name = 'ur_pathAcc_avg_dest_MIQP'
-    plot_afi_heatmap(pc_info_dest, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
                       'ur_pathAcc_avg_dest_MIQP', folder, form, dpi)
 
     
     col_name = 'ur_pathAcc_path_dest_MIQP'
-    plot_afi_heatmap(pc_info_dest, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
                       'ur_pathAcc_path_dest_MIQP', folder, form, dpi)
 
     
     col_name = 'ur_dest_def_path_dest_MIQP'
-    plot_afi_heatmap(pc_info_dest, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
-                      'ur_dest_def_path_MIQP_heatmap', folder, form, dpi)
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_dest_def_path_dest_MIQP', folder, form, dpi)
 
-
+    
+    
 # population
 
 pc_population = load_m_MIQP['population_region']
