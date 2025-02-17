@@ -1,0 +1,3 @@
+'OutputFlag',0 
+'BarHomogeneous', 1
+'Method', 1

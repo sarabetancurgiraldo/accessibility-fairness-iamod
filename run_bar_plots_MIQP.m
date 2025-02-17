@@ -9,7 +9,7 @@ load("model/data_shortPaths.mat");
 Tmax            = 20/60; 
 % nCarRange       = [1e3 3e3 4e3]; 
 nCarRange       = [3e3]; 
-maxY            = 3500;
+maxY            = 4000;
 file_typ        = 'pdf';
 % file_typ        = "png";
 alpha           = sum(abs(D),1)/2;

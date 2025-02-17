@@ -31,7 +31,7 @@ set(groot,'defaultlegendinterpreter','latex')
 set(gca,'ticklabelinterpreter','Latex','fontsize',20)
 bar(x_vals, T1.T-T2.T,'stacked')
 
-ylim([-1500 1200])
+ylim([-4000 4000])
 
 xlim([0 nbins])
 % xlim([0 max_t_round])

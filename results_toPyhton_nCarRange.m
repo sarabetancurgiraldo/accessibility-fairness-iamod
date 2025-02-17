@@ -3,7 +3,8 @@ clear; close all; clc;
 load("model/data_g.mat");
 load("model/data_shortPaths.mat");
 
-nCarRange       = [1e3 3e3 4e3]; 
+% nCarRange       = [1e3 3e3 4e3]; 
+nCarRange       = [ 3e3 ]; 
 
 Tmax = 20/60;
 Nmin = 35;
@@ -61,7 +62,17 @@ avg_minTT = AFIminTT.AFI_epsilons;
 avg_maxAcc = AFIavgAcc.AFI_epsilons;
 avg_pathAcc = AFIpathAcc.AFI_epsilons;
 avg_pathAccMILP = AFIdestDef.AFI_epsilons;
-
+%%
+% avgAcc reg
+if nCar == 3000
+load(sprintf('output/nCar/%d/avgAcc_reg.mat',nCar));
+AFIavgAcc_reg = load(sprintf('output/nCar/%d/AFI_heatmap_avgAcc_reg.mat',nCar));
+X_maxAcc_reg = sol_avgAcc.X;
+path_maxAcc_reg = AFIavgAcc_reg.AFI;
+avg_maxAcc_reg = AFIavgAcc_reg.AFI_epsilons;
+ur_avgAcc_avg_reg = R_selector*avg_maxAcc_reg;
+ur_avgAcc_path_reg = R_selector*path_maxAcc_reg;
+end
 %% Ur in matlab for python
 
 % ur_tt_avg = population_region.*(R_selector*avg_minTT)/sum(population_region);
@@ -99,11 +110,11 @@ ur_pathAcc_path_dest = dest_def_path_pathAcc;
 ur_dest_def_path_dest = sol_pathAccMILP.epsilon;
 
 str_save = sprintf('output/nCar/%d/matlab_python_T%d.mat',nCar,Tmax*60);
-save(str_save, "X_mintt", "X_maxAcc", "X_pathAcc", "X_pathAccMILP", ...
-               "path_minTT", "path_maxAcc", "path_pathAcc", "path_pathAccMILP", ...
-               "avg_minTT", "avg_maxAcc", "avg_pathAcc", "avg_pathAccMILP", ...
-               "ur_tt_avg", "ur_avgAcc_avg", "ur_pathAcc_avg", ...
-               "ur_tt_path", "ur_avgAcc_path", "ur_pathAcc_path", ...
+save(str_save, "X_mintt", "X_maxAcc", "X_pathAcc", "X_pathAccMILP", "X_maxAcc_reg",...
+               "path_minTT", "path_maxAcc", "path_pathAcc", "path_pathAccMILP","path_maxAcc_reg", ...
+               "avg_minTT", "avg_maxAcc", "avg_pathAcc", "avg_pathAccMILP","avg_maxAcc_reg", ...
+               "ur_tt_avg", "ur_avgAcc_avg", "ur_pathAcc_avg","ur_avgAcc_avg_reg", ...
+               "ur_tt_path", "ur_avgAcc_path", "ur_pathAcc_path","ur_avgAcc_path_reg", ...
                "ur_minTT_avg_dest","ur_minTT_path_dest", ...
                "ur_avgAcc_avg_dest","ur_avgAcc_path_dest", ...
                "ur_pathAcc_avg_dest","ur_pathAcc_path_dest", ...

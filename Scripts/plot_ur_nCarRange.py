@@ -238,19 +238,23 @@ for nCar in nCarRange:
               for edge in edges_matlab]
         
     ur_path_mintt = load_m['ur_tt_path']
-    ur_path_maxAcc = load_m['ur_avgAcc_path']
+    # ur_path_maxAcc = load_m['ur_avgAcc_path']
+    ur_path_maxAcc_reg = load_m['ur_avgAcc_path_reg']
     ur_path_pathAcc = load_m['ur_pathAcc_path']
     
     ur_avg_mintt = load_m['ur_tt_avg']
-    ur_avg_maxAcc = load_m['ur_avgAcc_avg']
+    # ur_avg_maxAcc = load_m['ur_avgAcc_avg']
+    ur_avg_maxAcc_reg = load_m['ur_avgAcc_avg_reg']
     ur_avg_pathAcc = load_m['ur_pathAcc_avg']
     
     pc_unique = load_m['pc_unique']
     
     ur = {str(v[0]): {'tt_avg': ur_avg_mintt[i][0],
                       'tt_path': ur_path_mintt[i][0],
-                      'avgAcc_avg': ur_avg_maxAcc[i][0],
-                      'avgAcc_path': ur_path_maxAcc[i][0],
+                      # 'avgAcc_avg': ur_avg_maxAcc[i][0],
+                      # 'avgAcc_path': ur_path_maxAcc[i][0],
+                      'avgAcc_avg_reg': ur_avg_maxAcc_reg[i][0],
+                      'avgAcc_path_reg': ur_path_maxAcc_reg[i][0],
                       'pathAcc_avg': ur_avg_pathAcc[i][0],
                       'pathAcc_path': ur_path_pathAcc[i][0],}
           for i, v in enumerate(pc_unique)}
@@ -260,8 +264,10 @@ for nCar in nCarRange:
     
     pc_info['tt_avg'] = np.nan
     pc_info['tt_path'] = np.nan
-    pc_info['avgAcc_avg'] = np.nan
-    pc_info['avgAcc_path'] = np.nan
+    # pc_info['avgAcc_avg'] = np.nan
+    # pc_info['avgAcc_path'] = np.nan
+    pc_info['avgAcc_avg_reg'] = np.nan
+    pc_info['avgAcc_path_reg'] = np.nan
     pc_info['pathAcc_avg'] = np.nan
     pc_info['pathAcc_path'] = np.nan
     
@@ -271,18 +277,22 @@ for nCar in nCarRange:
         ind = pc_info.loc[pc_info['postcode4'] == pc].index[0]
         pc_info.loc[ind, 'tt_avg'] = ur[pc]['tt_avg']
         pc_info.loc[ind, 'tt_path'] = ur[pc]['tt_path']
-        pc_info.loc[ind, 'avgAcc_avg'] = ur[pc]['avgAcc_avg']
-        pc_info.loc[ind, 'avgAcc_path'] = ur[pc]['avgAcc_path']
+        # pc_info.loc[ind, 'avgAcc_avg'] = ur[pc]['avgAcc_avg']
+        # pc_info.loc[ind, 'avgAcc_path'] = ur[pc]['avgAcc_path']
+        pc_info.loc[ind, 'avgAcc_avg_reg'] = ur[pc]['avgAcc_avg_reg']
+        pc_info.loc[ind, 'avgAcc_path_reg'] = ur[pc]['avgAcc_path_reg']
         pc_info.loc[ind, 'pathAcc_avg'] = ur[pc]['pathAcc_avg']
         pc_info.loc[ind, 'pathAcc_path'] = ur[pc]['pathAcc_path']
     
     pc_info = geopandas.GeoDataFrame(pc_info, crs="EPSG:4326")
     
     min_v = min(min(ur_path_mintt),min(ur_avg_mintt),
-                min(ur_path_maxAcc),min(ur_avg_maxAcc),
+                # min(ur_path_maxAcc),min(ur_avg_maxAcc),
+                min(ur_path_maxAcc_reg),min(ur_avg_maxAcc_reg),
                 min(ur_path_pathAcc),min(ur_avg_pathAcc))
     max_v = max(max(ur_path_mintt),max(ur_avg_mintt),
-                max(ur_path_maxAcc),max(ur_avg_maxAcc),
+                # max(ur_path_maxAcc),max(ur_avg_maxAcc),
+                max(ur_path_maxAcc_reg),max(ur_avg_maxAcc_reg),
                 max(ur_path_pathAcc),max(ur_avg_pathAcc))
     
     Tmax = '20'
@@ -302,15 +312,25 @@ for nCar in nCarRange:
     plot_afi_heatmap(pc_info, col_name, leg_label,  min_v, max_v, reversed_map, 
                       'ur_TT_paths_heatmap', folder, form, dpi)
     
+    # # max Acc avg
+    # col_name = 'avgAcc_avg'
+    # plot_afi_heatmap(pc_info, col_name, leg_label,  min_v, max_v, reversed_map, 
+    #                   'ur_Acc_OD_heatmap', folder, form, dpi)
+    
+    # # max Acc path
+    # col_name = 'avgAcc_path'
+    # plot_afi_heatmap(pc_info, col_name, leg_label,  min_v, max_v, reversed_map, 
+    #                   'ur_Acc_paths_heatmap', folder, form, dpi)
+    
     # max Acc avg
-    col_name = 'avgAcc_avg'
+    col_name = 'avgAcc_avg_reg'
     plot_afi_heatmap(pc_info, col_name, leg_label,  min_v, max_v, reversed_map, 
-                      'ur_Acc_OD_heatmap', folder, form, dpi)
+                      'ur_Acc_OD_heatmap_reg', folder, form, dpi)
     
     # max Acc path
-    col_name = 'avgAcc_path'
+    col_name = 'avgAcc_path_reg'
     plot_afi_heatmap(pc_info, col_name, leg_label,  min_v, max_v, reversed_map, 
-                      'ur_Acc_paths_heatmap', folder, form, dpi)
+                      'ur_Acc_paths_heatmap_reg', folder, form, dpi)
     
     # path Acc avg
     col_name = 'pathAcc_avg'
@@ -421,6 +441,8 @@ for nCar in nCarRange:
     ur_minTT_path_dest_MIQP = load_m_MIQP['dest_def_path_minTT']
     ur_avgAcc_avg_dest_MIQP = load_m_MIQP['dest_def_OD_avgAcc']
     ur_avgAcc_path_dest_MIQP = load_m_MIQP['dest_def_path_avgAcc']
+    ur_avgAccR_avg_dest_MIQP = load_m_MIQP['dest_def_OD_avgAcc_r']
+    ur_avgAccR_path_dest_MIQP = load_m_MIQP['dest_def_path_avgAcc_r']
     ur_pathAcc_avg_dest_MIQP = load_m_MIQP['dest_def_OD_pathAcc']
     ur_pathAcc_path_dest_MIQP = load_m_MIQP['dest_def_path_pathAcc']
     ur_dest_def_path_dest_MIQP = load_m_MIQP['ur_dest_def_path_dest']
@@ -428,8 +450,10 @@ for nCar in nCarRange:
     
     ur_MIQP = {str(v[0]): {'ur_minTT_avg_dest_MIQP': ur_minTT_avg_dest_MIQP[i][0],
                            'ur_minTT_path_dest_MIQP': ur_minTT_path_dest_MIQP[i][0],
-                           'ur_avgAcc_avg_dest_MIQP': ur_avgAcc_avg_dest_MIQP[i][0],
-                           'ur_avgAcc_path_dest_MIQP': ur_avgAcc_path_dest_MIQP[i][0],
+                            'ur_avgAcc_avg_dest_MIQP': ur_avgAcc_avg_dest_MIQP[i][0],
+                            'ur_avgAcc_path_dest_MIQP': ur_avgAcc_path_dest_MIQP[i][0],
+                           'ur_avgAccR_avg_dest_MIQP': ur_avgAccR_avg_dest_MIQP[i][0],
+                           'ur_avgAccR_path_dest_MIQP': ur_avgAccR_path_dest_MIQP[i][0],
                            'ur_pathAcc_avg_dest_MIQP': ur_pathAcc_avg_dest_MIQP[i][0],
                            'ur_pathAcc_path_dest_MIQP': ur_pathAcc_path_dest_MIQP[i][0],
                            'ur_dest_def_path_dest_MIQP': ur_dest_def_path_dest_MIQP[i][0],}
@@ -444,6 +468,8 @@ for nCar in nCarRange:
     pc_info_dest_MIQP['ur_minTT_path_dest_MIQP'] = np.nan
     pc_info_dest_MIQP['ur_avgAcc_avg_dest_MIQP'] = np.nan
     pc_info_dest_MIQP['ur_avgAcc_path_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_avgAccR_avg_dest_MIQP'] = np.nan
+    pc_info_dest_MIQP['ur_avgAccR_path_dest_MIQP'] = np.nan
     pc_info_dest_MIQP['ur_pathAcc_avg_dest_MIQP'] = np.nan
     pc_info_dest_MIQP['ur_pathAcc_path_dest_MIQP'] = np.nan
     pc_info_dest_MIQP['ur_dest_def_path_dest_MIQP'] = np.nan
@@ -456,6 +482,8 @@ for nCar in nCarRange:
         pc_info_dest_MIQP.loc[ind, 'ur_minTT_path_dest_MIQP'] = ur_MIQP[pc]['ur_minTT_path_dest_MIQP']
         pc_info_dest_MIQP.loc[ind, 'ur_avgAcc_avg_dest_MIQP'] = ur_MIQP[pc]['ur_avgAcc_avg_dest_MIQP']
         pc_info_dest_MIQP.loc[ind, 'ur_avgAcc_path_dest_MIQP'] = ur_MIQP[pc]['ur_avgAcc_path_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_avgAccR_avg_dest_MIQP'] = ur_MIQP[pc]['ur_avgAccR_avg_dest_MIQP']
+        pc_info_dest_MIQP.loc[ind, 'ur_avgAccR_path_dest_MIQP'] = ur_MIQP[pc]['ur_avgAccR_path_dest_MIQP']
         pc_info_dest_MIQP.loc[ind, 'ur_pathAcc_avg_dest_MIQP'] = ur_MIQP[pc]['ur_pathAcc_avg_dest_MIQP']
         pc_info_dest_MIQP.loc[ind, 'ur_pathAcc_path_dest_MIQP'] = ur_MIQP[pc]['ur_pathAcc_path_dest_MIQP']
         pc_info_dest_MIQP.loc[ind, 'ur_dest_def_path_dest_MIQP'] = ur_MIQP[pc]['ur_dest_def_path_dest_MIQP']
@@ -466,6 +494,8 @@ for nCar in nCarRange:
                    min(ur_minTT_path_dest_MIQP),
                    min(ur_avgAcc_avg_dest_MIQP),
                    min(ur_avgAcc_path_dest_MIQP),
+                   min(ur_avgAccR_avg_dest_MIQP),
+                   min(ur_avgAccR_path_dest_MIQP),
                    min(ur_pathAcc_avg_dest_MIQP),
                    min(ur_pathAcc_path_dest_MIQP),
                    min(ur_dest_def_path_dest_MIQP))
@@ -474,6 +504,8 @@ for nCar in nCarRange:
                    max(ur_minTT_path_dest_MIQP),
                    max(ur_avgAcc_avg_dest_MIQP),
                    max(ur_avgAcc_path_dest_MIQP),
+                   max(ur_avgAccR_avg_dest_MIQP),
+                   max(ur_avgAccR_path_dest_MIQP),
                    max(ur_pathAcc_avg_dest_MIQP),
                    max(ur_pathAcc_path_dest_MIQP),
                    max(ur_dest_def_path_dest_MIQP))
@@ -503,6 +535,16 @@ for nCar in nCarRange:
     col_name = 'ur_avgAcc_path_dest_MIQP'
     plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
                       'ur_avgAcc_path_dest_MIQP', folder, form, dpi)
+
+    
+    col_name = 'ur_avgAccR_avg_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_avgAccR_avg_dest_MIQP', folder, form, dpi)
+
+    
+    col_name = 'ur_avgAccR_path_dest_MIQP'
+    plot_afi_heatmap(pc_info_dest_MIQP, col_name, leg_label,  min_MIQP, max_MIQP, reversed_map, 
+                      'ur_avgAccR_path_dest_MIQP', folder, form, dpi)
 
     
     col_name = 'ur_pathAcc_avg_dest_MIQP'

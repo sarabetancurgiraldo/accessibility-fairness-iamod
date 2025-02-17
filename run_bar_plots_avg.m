@@ -9,9 +9,9 @@ load("model/data_shortPaths.mat");
 Tmax            = 20/60; 
 % nCarRange       = [1e3 3e3 4e3]; 
 nCarRange       = [3e3]; 
-maxY            = 3500;
-% file_typ        = 'pdf';
-file_typ        = "png";
+maxY            = 4000;
+file_typ        = 'pdf';
+% file_typ        = "png";
 alpha           = sum(abs(D),1)/2;
 Nmin            = 35;
 
@@ -66,7 +66,7 @@ fp_save_fig = sprintf('output/nCar/%d/figures/user/modal_share_OD_dest_avgAcc_re
 % metric2 = "Acc,Dest";
 metric2 = "AccSuff";
 obj2 = sprintf("%0.4f",deltaN_OD_AvgAcc);
-l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"N\ dest");
+l = leg(metric1,obj1,"min^2",1,1,metric2,obj2,"");%"N\ dest");
 plot_modal_share_legend_user(Tmax,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
                         D,maxY,l,X);
 
@@ -94,21 +94,21 @@ plot_modal_share_legend_user(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
 
 %% Modal share Diff
 
-% T_max = Tmax;
+T_max = Tmax;
 % 
 % % % OD-based (Average)
-% minTT = load(sprintf('output/nCar/%d/plot/modal_share_OD_minTT.mat',nCar));
-% AvgAcc = load(sprintf('output/nCar/%d/plot/modal_share_OD_avgAcc.mat',nCar));
-% pathAcc = load(sprintf('output/nCar/%d/plot/modal_share_OD_pathAcc.mat',nCar));
+minTT = load(sprintf('output/nCar/%d/plot/modal_share_OD_minTT.mat',nCar));
+AvgAcc_reg = load(sprintf('output/nCar/%d/plot/modal_share_OD_avgAcc_reg.mat',nCar));
+pathAcc = load(sprintf('output/nCar/%d/plot/modal_share_OD_pathAcc.mat',nCar));
 % destAcc = load(sprintf('output/nCar/%d/plot/modal_share_OD_destAcc.mat',nCar));
 % 
-% % AvgAcc vs minTT
-% fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_OD_AvgTT.%s',nCar,file_typ);
-% plot_modal_share_dif_user(T_max, AvgAcc, minTT, fp_save, 'Commute')
+% AvgAcc vs minTT
+fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_OD_AvgTT_reg.%s',nCar,file_typ);
+plot_modal_share_dif_user(T_max, AvgAcc_reg, minTT, fp_save, 'Commute')
 % 
-% % AvgAcc vs PathAcc 
-% fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_OD_AvgPath.%s',nCar,file_typ);
-% plot_modal_share_dif_user(T_max, pathAcc, AvgAcc, fp_save, 'Commute')
+% AvgAcc vs PathAcc 
+fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_OD_AvgPath_reg.%s',nCar,file_typ);
+plot_modal_share_dif_user(T_max, pathAcc, AvgAcc_reg, fp_save, 'Commute')
 % 
 % % AvgAcc vs Dest
 % fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_OD_AvgDest.%s',nCar,file_typ);
@@ -120,18 +120,18 @@ plot_modal_share_legend_user(Tmax,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
 % 
 % 
 % % Path-based
-% minTT = load(sprintf('output/nCar/%d/plot/modal_share_path_minTT.mat',nCar));
-% AvgAcc = load(sprintf('output/nCar/%d/plot/modal_share_path_avgAcc.mat',nCar));
-% pathAcc = load(sprintf('output/nCar/%d/plot/modal_share_path_pathAcc.mat',nCar));
+minTT = load(sprintf('output/nCar/%d/plot/modal_share_path_minTT.mat',nCar));
+AvgAcc_reg = load(sprintf('output/nCar/%d/plot/modal_share_path_avgAcc_reg.mat',nCar));
+pathAcc = load(sprintf('output/nCar/%d/plot/modal_share_path_pathAcc.mat',nCar));
 % destAcc = load(sprintf('output/nCar/%d/plot/modal_share_path_destAcc.mat',nCar));
 % 
-% % AvgAcc vs minTT
-% fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_path_AvgTT.%s',nCar,file_typ);
-% plot_modal_share_dif_user(T_max, AvgAcc, minTT, fp_save, 'Trip')
-% 
-% % AvgAcc vs PathAcc
-% fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_path_AvgPath.%s',nCar,file_typ);
-% plot_modal_share_dif_user(T_max, pathAcc, AvgAcc, fp_save, 'Trip')
+% AvgAcc vs minTT
+fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_path_AvgTT_reg.%s',nCar,file_typ);
+plot_modal_share_dif_user(T_max, AvgAcc_reg, minTT, fp_save, 'Trip')
+
+% AvgAcc vs PathAcc
+fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_path_AvgPath_reg.%s',nCar,file_typ);
+plot_modal_share_dif_user(T_max, pathAcc, AvgAcc_reg, fp_save, 'Trip')
 % 
 % % AvgAcc vs dest
 % fp_save = sprintf('output/nCar/%d/figures/user/modal_share_dif_path_AvgDest.%s',nCar,file_typ);

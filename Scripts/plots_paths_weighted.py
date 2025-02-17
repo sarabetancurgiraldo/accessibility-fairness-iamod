@@ -205,7 +205,7 @@ fp = os.path.join(os.getcwd(), 'output')
 # form = 'png'
 # form = 'svg'
 form = 'pdf'
-dpi = 500
+dpi = 1000
 
 min_lst = []
 max_lst = []
@@ -220,7 +220,7 @@ nCarRange = [3e3]
 
 for nCar in nCarRange:
     
-    str_folder = 'output\\nCar\\' + str(int(nCar)) + '\\figures\\ods'
+    str_folder = 'output\\nCar\\' + str(int(nCar)) + '\\figures\\ods reg'
     
     folder_plots = os.path.join(os.getcwd(), str_folder)
     
@@ -238,7 +238,8 @@ for nCar in nCarRange:
               for edge in edges_matlab]
 
     paths_mintt = load_m['X_mintt']
-    paths_maxAcc = load_m['X_maxAcc']
+    # paths_maxAcc = load_m['X_maxAcc']
+    paths_maxAcc = load_m['X_maxAcc_reg']
     paths_pathAcc = load_m['X_pathAcc']
 
     fp = folder_plots
@@ -252,8 +253,22 @@ for nCar in nCarRange:
     for ed1, ed2 in switch_edg:
         G_plot[ed1][ed2]['color'] = color_yellow
     
-    # plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
-    # plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
-    plot_paths(paths_pathAcc,D,edges_matlab,'Path Acc',nodes,edges,[361,460],G_plot,'improve',fp,form,0)
-    # plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc_460',nodes,edges,[460],G_plot,'improve',fp,form,0)
+    # ods_bc = [19,176,212,218,278,337,365,386,388,448,460,462,465,470,487,595,
+    #           711,715,827,831,1050,1055,1068,1073,1117,1215]
+    # ods_cb = [271,321,361,1018]
+    
+    # for od in ods_bc:#range(demand.shape[1]):
+    #     plot_paths(paths_mintt,D,edges_matlab,'bc_'+str(od)+'_Min TT',nodes,edges,[od],G_plot,'improve',fp,form,0)
+    #     plot_paths(paths_maxAcc,D,edges_matlab,'bc_'+str(od)+'_Max Acc_reg',nodes,edges,[od],G_plot,'improve',fp,form,0)
+    #     plot_paths(paths_pathAcc,D,edges_matlab,'bc_'+str(od)+'_Path Acc',nodes,edges,[od],G_plot,'improve',fp,form,0)
+
+    # for od in ods_cb:#range(demand.shape[1]):
+    #     plot_paths(paths_mintt,D,edges_matlab,'cb_'+str(od)+'_Min TT',nodes,edges,[od],G_plot,'improve',fp,form,0)
+    #     plot_paths(paths_maxAcc,D,edges_matlab,'cb_'+str(od)+'_Max Acc_reg',nodes,edges,[od],G_plot,'improve',fp,form,0)
+    #     plot_paths(paths_pathAcc,D,edges_matlab,'cb_'+str(od)+'_Path Acc',nodes,edges,[od],G_plot,'improve',fp,form,0)
+    
+    # plot_paths(paths_mintt,D,edges_matlab,'Min TT',nodes,edges,[361,1215],G_plot,'improve',fp,form,0)
+    # plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc_reg',nodes,edges,[361,1215],G_plot,'improve',fp,form,0)
+    # plot_paths(paths_pathAcc,D,edges_matlab,'Path Acc',nodes,edges,[361,1215],G_plot,'improve',fp,form,0)
+    plot_paths(paths_maxAcc,D,edges_matlab,'Max Acc_1215',nodes,edges,[1215],G_plot,'improve',fp,form,0)
 
