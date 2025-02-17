@@ -25,11 +25,11 @@ options                 = sdpsettings('verbose', 1, ...
                                       'solver', 'gurobi', ...
                                       'showprogress', 1);
 
-% options.gurobi.QCPDual          = 1; %potential extra computation time
+options.gurobi.QCPDual          = 1; %potential extra computation time
 % options.gurobi.Crossover        = 0; %related to QCP, removes infeasibilities
 % options.gurobi.CrossoverBasis   = 0; %choose inital basis
 % options.gurobi.OutputFlag       = 0; %Enables or disables solver output.
-options.gurobi.BarHomogeneous   = 0; % homogeneous barrier algorithm
+% options.gurobi.BarHomogeneous   = 0; % homogeneous barrier algorithm
 % options.mosek.MSK_IPAR_INTPNT_BASIS = 'MSK_BI_NEVER';
 % options.gurobi.Method           = 2; % 2 = barrier, 1=dual simplex,
 
