@@ -31,7 +31,7 @@ options                 = sdpsettings('verbose', 1, ...
 % options.gurobi.OutputFlag       = 0; %Enables or disables solver output.
 options.gurobi.BarHomogeneous   = 0; % homogeneous barrier algorithm
 % options.mosek.MSK_IPAR_INTPNT_BASIS = 'MSK_BI_NEVER';
-options.gurobi.Method           = 1; % 2 = barrier, 1=dual simplex,
+options.gurobi.Method           = 2; % 2 = barrier, 1=dual simplex,
 
 %% Save on object
 sol_mintt               = optimize(Cons, Obj, options);
