@@ -19,7 +19,7 @@ Cons                    = [B*X                                   == D;
                            xR                                    >= 0];
 
 % Define objective
-Obj                     = t'*X*ones(size(D,2), 1);% + 1e2 * (X'*X); 
+Obj                     = (t'*X*ones(size(D,2), 1) + 1e-2 * (X'*X))/(2*sum(sum(D))); 
 
 options                 = sdpsettings('verbose', 1, ...
                                       'solver', 'gurobi', ...
@@ -27,7 +27,7 @@ options                 = sdpsettings('verbose', 1, ...
 
 % options.gurobi.QCPDual          = 1; %potential extra computation time
 % options.gurobi.Crossover        = 0; %related to QCP, removes infeasibilities
-options.gurobi.CrossoverBasis   = 0; %choose inital basis
+% options.gurobi.CrossoverBasis   = 0; %choose inital basis
 % options.gurobi.OutputFlag       = 0; %Enables or disables solver output.
 % options.gurobi.BarHomogeneous   = 0; % homogeneous barrier algorithm
 % options.mosek.MSK_IPAR_INTPNT_BASIS = 'MSK_BI_NEVER';
