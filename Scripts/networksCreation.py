@@ -4,7 +4,7 @@ Created on Wed Apr  3 10:21:37 2024
 
 @author: sarab
 """
-
+#%%
 
 import pickle
 from Shrink import Shrink
@@ -930,8 +930,6 @@ total_av_trips = modes['total']
 
 #%%% Execute functions
 
-#TODO: Check if its better to create all of the layers and then connect
-
 graphs_path = os.path.join(os.getcwd(), 
                            f'variables\\graphs_shrink{target_nodes}.pkl')
 if flag_load:
@@ -977,13 +975,13 @@ G_o, G_ocbw, pc4_info, dict_sow = create_origin_layer(G_w,
                                                       dict_weird_nodes, 
                                                       G_cbw,
                                                       flag_bike,)
-
+# %%
 # Create or load pt and connect w to pt and pt to w
 G_pt, G_ocbwpt = public_transport_layer(flag_create_pt, 
                                         default_wait_pt, 
                                         G_ocbw, 
                                         average_speed_walk)
-
+# %%
 G_ocbwpt = connect_car(flag_parking, 
                        bbox, 
                        parking_time, 
@@ -1019,5 +1017,5 @@ save_python(G_w, G_b, G_c, pc4d_crop, pc4d_join, pc4d_data,
 
 
 
-
+#%%
 

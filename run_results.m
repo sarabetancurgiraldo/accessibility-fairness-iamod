@@ -6,160 +6,185 @@ fclose('all');
 
 load('model/data_g.mat');
 load("model/data_shortPaths.mat");
-% load('output/TT_AFI.mat','minTT','pathAcc')
 
 %% Variables
 
-% nCar = 4e3; 
-nCarRange = [1e3 2e3 4e3];
-% nCarRange = [ 3e3 ]; 
-Tmax = 20/60;
-Nmin = 35;
+nCarRange = [0 2e3 3e3 4e3 5e3];
+TsuffRange = [15/60 20/60 25/60];
+NsuffRange = [30 35 40];
 
 % alpha matrix - # of trips per hour for each od-pair 
 alpha           = sum(abs(D),1)/2;
 t               = G.Edges.Weight;
+X_Iamod         = Xfast;
+X_amod          = Xslow;
 
 % nOD             = 5;
 % D               = D(:,1:nOD);
-% Xfast           = Xfast(:,1:nOD);
-% Xslow           = Xslow(:,1:nOD);
+% X_Iamod         = X_Iamod(:,1:nOD);
+% X_amod          = X_amod(:,1:nOD);
 % R_selector      = R_selector(:,1:nOD);
 % alpha           = alpha(:,1:nOD);
 
 %% Create object with data
 nC = length(nCarRange);
+Ts = length(TsuffRange);
+Ns = length(NsuffRange);
 
-minTT = zeros(1,nC,3);
-avgAcc = zeros(1,nC,3);
-pathAcc = zeros(1,nC,3);
-pathAccMILP = zeros(1,nC,3);
+UtilEff = zeros(Ts,nC,3);
+CommSuff = zeros(Ts,nC,3);
+TripSuff = zeros(Ts,nC,3);
+AccSuff = cell(Ns);%(Ts,nC,3);
 
 for i_nCar = 1:nC
 nCar = nCarRange(i_nCar); 
 
-% optimizations
+for i_Tsuff = 1:Ts
+Tsuff = TsuffRange(i_Tsuff);
 
-% minTT
-str_save = sprintf('output/nCar/%d/minTT.mat',nCar);
-minTravelTime(nCar,G,B,nArcs,D,str_save);
+%% Optimizations
 
-% avgAcc
-str_save = sprintf('output/nCar/%d/avgAcc.mat',nCar);
-maxAverageAcc(nCar,Tmax,str_save,G,B,D,nArcs);
+% UtilitarianEfficiency
+str_save = sprintf('output/nCar/%d/Tsuff/%d/UtilEff.mat',nCar,Tsuff*60);
+UtilitarianEfficiency(nCar,G,B,nArcs,D,str_save);
 
-% pathAcc 
-str_save = sprintf('output/nCar/%d/pathAcc.mat',nCar);
-maxPathAcc(Tmax,nCar,str_save,G,B,D,nArcs,Xfast,Xslow,nOD, ...
-           population_region,R_selector,alpha);
+if nCar ~= 0
+% CommuteSufficiency
+str_save = sprintf('output/nCar/%d/Tsuff/%d/CommSuff.mat',nCar,Tsuff*60);
+CommuteSufficiency(nCar,Tsuff,str_save,G,B,D,nArcs);
 
-% % pathAccMILP
-% str_save = 'output/pathAccMILP.mat';
-% maxPathAccMILP(G,B,pc_unique,Xfast,Xslow,D,nOD,R_selector,Nmin, ...
-%                population_region,str_save,alpha,Tmax,nArcs,nCar)
-% pathAccMILP_G
-str_save = sprintf('output/nCar/%d/pathAccMILP.mat',nCar);
-maxPathAccMILP_G(G,B,pc_unique,Xfast,Xslow,D,nOD,R_selector,Nmin, ...
-                 population_region,str_save,alpha,Tmax,nArcs,nCar)
+% TripSufficiency 
+str_save = sprintf('output/nCar/%d/Tsuff/%d/TripSuff.mat',nCar,Tsuff*60);
+TripSufficiency(Tsuff,nCar,str_save,G,B,D,nArcs,X_Iamod,X_amod,nOD, ...
+                population_region,R_selector,alpha);
 
-% path flow allocation
+for i_Nsuff = 1:Ns
+Nsuff = NsuffRange(i_Nsuff);
 
-% minTT
-load(sprintf('output/nCar/%d/minTT.mat',nCar));
-X_matrix = sol_mintt.X;
-X_matrix = X_matrix(:,1:nOD);
-epsilonTT = (max(0,(2*(t'*X_matrix)'./sum(abs(D),1)')-Tmax)/Tmax).^2;
-fp_save = sprintf('output/nCar/%d/path_flows_minTT.mat',nCar);
-[minTT(1,i_nCar,1), ...
- minTT(1,i_nCar,2), ...
- minTT(1,i_nCar,3)] = path_flows_Leo(Tmax,X_matrix,epsilonTT,fp_save,D,B,G);
-
-% avgAcc
-load(sprintf('output/nCar/%d/avgAcc.mat',nCar));
-X_matrix = sol_avgAcc.X;
-X_matrix = X_matrix(:,1:nOD);
-epsilonAvg = sol_avgAcc.epsilon;
-epsilonAvg = epsilonAvg(1:nOD);
-fp_save = sprintf('output/nCar/%d/path_flows_avgAcc.mat',nCar);
-[avgAcc(1,i_nCar,1), ...
- avgAcc(1,i_nCar,2), ...
- avgAcc(1,i_nCar,3)] = path_flows_Leo(Tmax,X_matrix,epsilonAvg,fp_save,D,B,G);
-
-% pathAcc 
-load(sprintf('output/nCar/%d/pathAcc.mat',nCar))
-X_matrix = sol_pathAcc.X;
-X_matrix = X_matrix(:,1:nOD);
-t_AvgPath = (sol_pathAcc.Ffast.*sol_pathAcc.tfast + ...
-             sol_pathAcc.Fslow.*sol_pathAcc.tslow)./...
-             (sol_pathAcc.Ffast+sol_pathAcc.Fslow);
-epsilonPath = (max(0,t_AvgPath-Tmax)/Tmax).^2;
-epsilonPath = epsilonPath(1:nOD);
-fp_save = sprintf('output/nCar/%d/path_flows_pathAcc.mat',nCar);
-[pathAcc(1,i_nCar,1), ...
- pathAcc(1,i_nCar,2), ...
- pathAcc(1,i_nCar,3)] = path_flows_Leo(Tmax,X_matrix,epsilonPath',fp_save,D,B,G);
-
-% pathAccMILP
-load(sprintf('output/nCar/%d/pathAccMILP.mat',nCar));
-X_matrix = sol_pathAccMILP.X;
-t_AvgPathMILP = (sol_pathAccMILP.Ffast.*sol_pathAccMILP.tfast + ...
-                 sol_pathAccMILP.Fslow.*sol_pathAccMILP.tslow)./...
-                 (sol_pathAccMILP.Ffast+sol_pathAccMILP.Fslow);
-epsilonPathMILP = (max(0,t_AvgPathMILP-Tmax)/Tmax).^2;
-epsilonPathMILP = epsilonPathMILP(1:nOD);
-fp_save = sprintf('output/nCar/%d/path_flows_pathAccMILP.mat',nCar);
-[pathAccMILP(1,i_nCar,1),...
- pathAccMILP(1,i_nCar,2),...
- pathAccMILP(1,i_nCar,3)] = path_flows_Leo(Tmax,X_matrix,epsilonPathMILP',fp_save,D,B,G);
-
-% Heatmap
-
-% minTT
-load(sprintf('output/nCar/%d/minTT.mat',nCar));
-X_matrix = sol_mintt.X;
-tm_TT = (2*(t'*X_matrix)'./sum(abs(D),1)');
-epsilonTT = (max(0,60*(tm_TT-Tmax))).^2;
-fp_load = sprintf('output/nCar/%d/path_flows_minTT.mat',nCar);
-fp_save = sprintf('output/nCar/%d/AFI_heatmap_minTT.mat',nCar);
-AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonTT,D,false)
-
-% avgAcc
-load(sprintf('output/nCar/%d/avgAcc.mat',nCar));
-X_matrix = sol_avgAcc.X;
-tm_avg = (t'*X_matrix)'./(sum(abs(D),1)'/2);
-epsilonAvg = (max(0,60*(tm_avg-Tmax))).^2;
-fp_load = sprintf('output/nCar/%d/path_flows_avgAcc.mat',nCar);
-fp_save = sprintf('output/nCar/%d/AFI_heatmap_avgAcc.mat',nCar);
-AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonAvg,D,false)
-
-% pathAcc 
-load(sprintf('output/nCar/%d/pathAcc.mat',nCar))
-% X_matrix = sol_pathAcc.X;
-Efast = max(0,60*(sol_pathAcc.tfast-Tmax)).^2;
-Eslow = max(0,60*(sol_pathAcc.tslow-Tmax)).^2;
-epsilonPath = (sol_pathAcc.Ffast.*Efast + ...
-               sol_pathAcc.Fslow.*Eslow)/sum(alpha);
-fp_load = sprintf('output/nCar/%d/path_flows_pathAcc.mat',nCar);
-fp_save = sprintf('output/nCar/%d/AFI_heatmap_pathAcc.mat',nCar);
-AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPath',D,true)
-
-% MILP
-load(sprintf('output/nCar/%d/pathAccMILP.mat',nCar))
-Efast = max(0,60*(sol_pathAccMILP.tfast-Tmax)).^2;
-Eslow = max(0,60*(sol_pathAccMILP.tslow-Tmax)).^2;
-epsilonPathMILP = (sol_pathAccMILP.Ffast.*Efast + ...
-                   sol_pathAccMILP.Fslow.*Eslow)/sum(alpha);
-fp_load = sprintf('output/nCar/%d/path_flows_pathAccMILP.mat',nCar);
-fp_save = sprintf('output/nCar/%d/AFI_heatmap_pathAccMILP.mat',nCar);
-AFI_heatmap_sq(Tmax,fp_load,fp_save,epsilonPathMILP',D,true)
-
-% % This is for plotting in python
-% MILP = sol_pathAccMILP.epsilon;
-% str_save_afi = 'output/afi_MILP.mat';
-% save(str_save_afi, "MILP")
+% AccessibilitySufficiency
+str_save = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AccSuff.mat',Nsuff,nCar,Tsuff*60);
+AccessibilitySufficiency(G,B,pc_unique,X_Iamod,X_amod,D,nOD,R_selector,Nsuff, ...
+                         population_region,str_save,alpha,Tsuff,nArcs,nCar)
+end
 end
 
-str_save = sprintf('output/nCar/TT_AFI_%d.mat',nCar);
-save(str_save,'minTT','avgAcc','pathAcc','pathAccMILP');
+%% Path flow allocation
+
+% UtilitarianEfficiency
+load(sprintf('output/nCar/%d/Tsuff/%d/UtilEff.mat',nCar,Tsuff*60));
+X_matrix        = sol_utilEff.X;
+X_matrix        = X_matrix(:,1:nOD);
+epsilonUEff     = (max(0,(2*(t'*X_matrix)'./sum(abs(D),1)')-Tsuff)/Tsuff).^2;
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/path_flows_UtilEff.mat',nCar,Tsuff*60);
+[UtilEff(i_Tsuff,i_nCar,1), ...
+ UtilEff(i_Tsuff,i_nCar,2), ...
+ UtilEff(i_Tsuff,i_nCar,3)] = path_flows_Leo(Tsuff,X_matrix,epsilonUEff,fp_save,D,B,G);
+
+if nCar ~= 0
+
+% CommuteSufficiency
+load(sprintf('output/nCar/%d/Tsuff/%d/CommSuff.mat',nCar,Tsuff*60));
+X_matrix = sol_comSuff.X;
+X_matrix = X_matrix(:,1:nOD);
+epsilonComm = sol_comSuff.epsilon;
+epsilonComm = epsilonComm(1:nOD);
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/path_flows_CommSuff.mat',nCar,Tsuff*60);
+[CommSuff(i_Tsuff,i_nCar,1), ...
+ CommSuff(i_Tsuff,i_nCar,2), ...
+ CommSuff(i_Tsuff,i_nCar,3)] = path_flows_Leo(Tsuff,X_matrix,epsilonComm,fp_save,D,B,G);
+
+% TripSufficiency 
+load(sprintf('output/nCar/%d/Tsuff/%d/TripSuff.mat',nCar,Tsuff*60))
+X_matrix = sol_Tripsuff.X;
+X_matrix = X_matrix(:,1:nOD);
+t_AvgTrip = (sol_Tripsuff.F_Iamod.*sol_Tripsuff.t_Iamod + ...
+             sol_Tripsuff.F_amod.*sol_Tripsuff.t_amod)./...
+             (sol_Tripsuff.F_Iamod+sol_Tripsuff.F_amod);
+epsilonTrip = (max(0,t_AvgTrip-Tsuff)/Tsuff).^2;
+epsilonTrip = epsilonTrip(1:nOD);
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/path_flows_TripSuff.mat',nCar,Tsuff*60);
+[TripSuff(i_Tsuff,i_nCar,1), ...
+ TripSuff(i_Tsuff,i_nCar,2), ...
+ TripSuff(i_Tsuff,i_nCar,3)] = path_flows_Leo(Tsuff,X_matrix,epsilonTrip',fp_save,D,B,G);
 
 
+for i_Nsuff = 1:Ns
+Nsuff = NsuffRange(i_Nsuff);
+
+% AccessibilitySufficiency
+load(sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AccSuff.mat',Nsuff,nCar,Tsuff*60));
+X_matrix = sol_AccSuff.X;
+t_AvgAcc = (sol_AccSuff.F_Iamod.*sol_AccSuff.t_Iamod + ...
+            sol_AccSuff.F_amod.*sol_AccSuff.t_amod)./...
+            (sol_AccSuff.F_Iamod+sol_AccSuff.F_amod);
+epsilonAcc = (max(0,t_AvgAcc-Tsuff)/Tsuff).^2;
+epsilonAcc = epsilonAcc(1:nOD);
+fp_save = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/path_flows_AccSuff.mat',Nsuff,nCar,Tsuff*60);
+% [AccSuff(1,1,1),...
+%  AccSuff(1,1,2),...
+%  AccSuff(1,1,3)] = path_flows_Leo(Tsuff,X_matrix,epsilonAcc',fp_save,D,B,G);
+[AccSuff{i_Nsuff,i_Tsuff,i_nCar,1},...
+ AccSuff{i_Nsuff,i_Tsuff,i_nCar,2},...
+ AccSuff{i_Nsuff,i_Tsuff,i_nCar,3}] = path_flows_Leo(Tsuff,X_matrix,epsilonAcc',fp_save,D,B,G);
+
+% str_save = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/J.mat',Nsuff,nCar,Tsuff*60);
+% save(str_save,'AccSuff');
+
+end
+end
+
+%% Heatmap
+
+% UtilitarianEfficiency
+load(sprintf('output/nCar/%d/Tsuff/%d/UtilEff.mat',nCar,Tsuff*60));
+X_matrix = sol_utilEff.X;
+tm_UtilEff = (2*(t'*X_matrix)'./sum(abs(D),1)');
+epsilonUEff = (max(0,60*(tm_UtilEff-Tsuff))).^2;
+fp_load = sprintf('output/nCar/%d/Tsuff/%d/path_flows_UtilEff.mat',nCar,Tsuff*60);
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/AFI_heatmap_UtilEff.mat',nCar,Tsuff*60);
+AFI_heatmap_sq(Tsuff,fp_load,fp_save,epsilonUEff,D,false)
+
+if nCar ~= 0
+
+% CommuteSufficiency
+load(sprintf('output/nCar/%d/Tsuff/%d/CommSuff.mat',nCar,Tsuff*60));
+X_matrix = sol_comSuff.X;
+tm_comm = (t'*X_matrix)'./(sum(abs(D),1)'/2);
+epsilonComm = (max(0,60*(tm_comm-Tsuff))).^2;
+fp_load = sprintf('output/nCar/%d/Tsuff/%d/path_flows_CommSuff.mat',nCar,Tsuff*60);
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/AFI_heatmap_CommSuff.mat',nCar,Tsuff*60);
+AFI_heatmap_sq(Tsuff,fp_load,fp_save,epsilonComm,D,false)
+
+% TripSufficiency 
+load(sprintf('output/nCar/%d/Tsuff/%d/TripSuff.mat',nCar,Tsuff*60))
+E_Iamod = max(0,60*(sol_Tripsuff.t_Iamod-Tsuff)).^2;
+E_amod = max(0,60*(sol_Tripsuff.t_amod-Tsuff)).^2;
+epsilonTrip = (sol_Tripsuff.F_Iamod.*E_Iamod + ...
+               sol_Tripsuff.F_amod.*E_amod)/sum(alpha);
+fp_load = sprintf('output/nCar/%d/Tsuff/%d/path_flows_TripSuff.mat',nCar,Tsuff*60);
+fp_save = sprintf('output/nCar/%d/Tsuff/%d/AFI_heatmap_TripSuff.mat',nCar,Tsuff*60);
+AFI_heatmap_sq(Tsuff,fp_load,fp_save,epsilonTrip',D,true)
+
+for i_Nsuff = 1:Ns
+Nsuff = NsuffRange(i_Nsuff);
+
+% AccessibilitySufficiency
+load(sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AccSuff.mat',Nsuff,nCar,Tsuff*60))
+E_Iamod = max(0,60*(sol_AccSuff.t_Iamod-Tsuff)).^2;
+E_amod = max(0,60*(sol_AccSuff.t_amod-Tsuff)).^2;
+epsilonAcc = (sol_AccSuff.F_Iamod.*E_Iamod + ...
+              sol_AccSuff.F_amod.*E_amod)/sum(alpha);
+fp_load = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/path_flows_AccSuff.mat',Nsuff,nCar,Tsuff*60);
+fp_save = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AFI_heatmap_AccSuff.mat',Nsuff,nCar,Tsuff*60);
+AFI_heatmap_sq(Tsuff,fp_load,fp_save,epsilonAcc',D,true)
+
+end
+end
+end
+end
+
+% str_save = sprintf('output/J.mat');
+% save(str_save,'UtilEff','CommSuff','TripSuff');
+
+str_save = sprintf('output/J.mat');
+save(str_save,'UtilEff','CommSuff','TripSuff','AccSuff');

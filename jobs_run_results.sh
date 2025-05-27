@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=128G
 #SBATCH --mail-type=BEGIN,END,FAIL
-#SBATCH --mail-user=s.betancur.giraldo@student.tue.nl
+#SBATCH --mail-user=s.betancur.giraldo@tue.nl
 
 module load matlab/2023b
 module load Gurobi/11.0.0-GCCcore-12.3.0
