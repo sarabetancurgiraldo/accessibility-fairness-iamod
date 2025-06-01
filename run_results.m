@@ -27,7 +27,7 @@ X_amod          = Xslow;
 % alpha           = alpha(:,1:nOD);
 
 %% Create object with data
-nC = length(nCarRange);
+nC = length(nCarRange)-2;
 Ts = length(TsuffRange);
 Ns = length(NsuffRange);
 
