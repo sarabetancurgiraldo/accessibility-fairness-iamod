@@ -27,7 +27,7 @@ X_amod          = Xslow;
 % alpha           = alpha(:,1:nOD);
 
 %% Create object with data
-nC = length(nCarRange)-2;
+nC = length(nCarRange);
 Ts = length(TsuffRange);
 Ns = length(NsuffRange);
 
@@ -36,7 +36,7 @@ CommSuff = zeros(Ts,nC,3);
 TripSuff = zeros(Ts,nC,3);
 AccSuff = cell(Ns);%(Ts,nC,3);
 
-for i_nCar = 1:nC
+for i_nCar = 1:2
 nCar = nCarRange(i_nCar); 
 
 for i_Tsuff = 1:Ts
@@ -186,5 +186,8 @@ end
 % str_save = sprintf('output/J.mat');
 % save(str_save,'UtilEff','CommSuff','TripSuff');
 
-str_save = sprintf('output/J.mat');
+% str_save = sprintf('output/J.mat');
+% save(str_save,'UtilEff','CommSuff','TripSuff','AccSuff');
+
+str_save = sprintf('output/J_02.mat');
 save(str_save,'UtilEff','CommSuff','TripSuff','AccSuff');
