@@ -36,7 +36,7 @@ CommSuff = zeros(Ts,nC,3);
 TripSuff = zeros(Ts,nC,3);
 AccSuff = cell(Ns);%(Ts,nC,3);
 
-for i_nCar = 3
+for i_nCar = 4:5
 nCar = nCarRange(i_nCar); 
 
 for i_Tsuff = 1:Ts
@@ -189,5 +189,5 @@ end
 % str_save = sprintf('output/J.mat');
 % save(str_save,'UtilEff','CommSuff','TripSuff','AccSuff');
 
-str_save = sprintf('output/J_3.mat');
+str_save = sprintf('output/J_45.mat');
 save(str_save,'UtilEff','CommSuff','TripSuff','AccSuff');
