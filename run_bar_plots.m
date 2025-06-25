@@ -105,7 +105,8 @@ plot_modal_share_legend_user(Tsuff,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
                         D,maxY,l,X);
 for i_Nsuff = 1:Ns
 Nsuff = NsuffRange(i_Nsuff);
-load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+% load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+load(sprintf("output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/dest_deficit.mat",Nsuff,nCar,Tsuff*60))
 fp_save = sprintf('output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_comm_dest_CommSuff.mat',Nsuff,nCar,Tsuff*60);
 fp_save_fig = sprintf('output/figures/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_comm_dest_CommSuff.%s',Nsuff,nCar,Tsuff*60,file_typ);
 metric2 = "AccSuff";
@@ -127,7 +128,8 @@ plot_modal_share_legend_user(Tsuff,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
                         D,maxY,l);
 for i_Nsuff = 1:Ns
 Nsuff = NsuffRange(i_Nsuff);
-load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+% load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+load(sprintf("output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/dest_deficit.mat",Nsuff,nCar,Tsuff*60))
 fp_save = sprintf('output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_trip_dest_CommSuff.mat',Nsuff,nCar,Tsuff*60);
 fp_save_fig = sprintf('output/figures/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_trip_dest_CommSuff.%s',Nsuff,nCar,Tsuff*60,file_typ);
 metric2 = "AccSuff";
@@ -153,7 +155,8 @@ plot_modal_share_legend_user(Tsuff,false,fp_load,fp_save,fp_save_fig,Tavg,G, ...
                         D,maxY,l,X);
 for i_Nsuff = 1:Ns
 Nsuff = NsuffRange(i_Nsuff);
-load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+% load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+load(sprintf("output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/dest_deficit.mat",Nsuff,nCar,Tsuff*60))
 fp_save = sprintf('output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_comm_dest_TripSuff.mat',Nsuff,nCar,Tsuff*60);
 fp_save_fig = sprintf('output/figures/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_comm_dest_TripSuff.%s',Nsuff,nCar,Tsuff*60,file_typ);
 metric2 = "AccSuff";
@@ -175,7 +178,8 @@ plot_modal_share_legend_user(Tsuff,true,fp_load,fp_save,fp_save_fig,Tavg,G, ...
                         D,maxY,l);
 for i_Nsuff = 1:Ns
 Nsuff = NsuffRange(i_Nsuff);
-load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+% load(sprintf("output/plot/Nsuff/%d/dest_deficit.mat",Nsuff))
+load(sprintf("output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/dest_deficit.mat",Nsuff,nCar,Tsuff*60))
 fp_save = sprintf('output/plot/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_trip_dest_TripSuff.mat',Nsuff,nCar,Tsuff*60);
 fp_save_fig = sprintf('output/figures/Nsuff/%d/nCar/%d/Tsuff/%d/modal_share_trip_dest_TripSuff.%s',Nsuff,nCar,Tsuff*60,file_typ);
 metric2 = "AccSuff";
@@ -189,7 +193,8 @@ end
 for i_Nsuff = 1:Ns
 Nsuff = NsuffRange(i_Nsuff);
 
-load(sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/J.mat',Nsuff,nCar,Tsuff*60));
+% load(sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/J.mat',Nsuff,nCar,Tsuff*60));
+load('output/J.mat');
 fp_load = sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AccSuff.mat',Nsuff,nCar,Tsuff*60);
 load(fp_load);
 load(sprintf('output/Nsuff/%d/nCar/%d/Tsuff/%d/AFI_heatmap_AccSuff.mat',Nsuff,nCar,Tsuff*60));

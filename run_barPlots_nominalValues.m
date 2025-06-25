@@ -3,8 +3,8 @@ clear; close all; clc;
 load("model/data_g.mat");
 load("model/data_shortPaths.mat");
 
-load('output/J.mat');
-load('output/J_AccSuff.mat');
+load('output/J_.mat');
+% load('output/J_AccSuff.mat');
 
 maxY = 4000;
 Nsuff = 35;
